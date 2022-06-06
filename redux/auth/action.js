@@ -89,7 +89,6 @@ export const deauthenticate = (token) => {
             dispatch({type: actionTypes.DEAUTHENTICATE});
             removeCookie('token')
             Router.replace('/login');
-
           }
 
         })

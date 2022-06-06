@@ -78,20 +78,6 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
         })
         const data = await getData.json()
         if (data.status === 200) {
-            // let updatedHistory = {
-            //     createdAt: "2022-05-15T06:21:01.000Z",
-            //     historyContactId: 1,
-            //     leadId: data.data,
-            //     notes: null,
-            //     updatedAt: "2022-05-15T06:21:01.000Z",
-            //     userContactedAt: "2022-05-15T06:21:01.000Z",
-            //     userContactedEmail: "ghassanfaikar10@gmail.com",
-            //     userContactedId: 1,
-            //     userContactedName: "ghassan2",
-            //     userContactedVia: contact
-            // }
-            // setHistory(oldArray => [...oldArray, updatedHistory]);
-
             switch (contact) {
                 case 'telephone':
                     window.open(
@@ -121,7 +107,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
     }
 
     const fetchData = async () => {
-        const getData = await fetch(`${API_URL}/leads/contact/${data.data.leadid}?via=`,{
+        const getData = await fetch(`${API_URL}/leads/contact/${data.data.leadId}?via=`,{
           method:"GET",
           headers:{
             'Authorization': 'Bearer ' + token,
@@ -162,14 +148,14 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
                                     <p className='m-0 project__name'>Bintaro Jaya</p>
                                     <div className='client__contact'>
                                         <ul className='d-flex justify-content-center'>
-                                            <li><div onClick={()=>_updateContacted(data.data.leadid,'telephone')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="telephone" src={'/images/telephone.png'} width={25} height={25}/></div><span>Telephone</span></li>
-                                            <li><div onClick={()=>_updateContacted(data.data.leadid,'wa')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="wa" src={'/images/whatsapp.png'} width={24} height={24}/></div><span>WhatsApp</span></li>
-                                            <li><div onClick={()=>_updateContacted(data.data.leadid,'mail')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="mail" src={'/images/email.png'} width={28} height={28}/></div><span>Email</span></li>
+                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'telephone')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="telephone" src={'/images/telephone.png'} width={25} height={25}/></div><span>Telephone</span></li>
+                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'wa')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="wa" src={'/images/whatsapp.png'} width={24} height={24}/></div><span>WhatsApp</span></li>
+                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'mail')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="mail" src={'/images/email.png'} width={28} height={28}/></div><span>Email</span></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div>
-                                    <p className='m-0 assigned__agent'>Ditugaskan Kepada Admin</p>
+                                    <p className='m-0 assigned__agent'>Ditugaskan kepada {data.data.userAcceptedName}</p>
                                     {/* <span className='d-block last__activity'>Terakhir diperbaharui 6 Hari lalu oleh System</span> */}
                                 </div>
                             </div>
@@ -181,7 +167,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
                                 <p className='source_text'>Perbaharui Status</p>
                                 <ul>
                                     {list_filter.filter_3.map((item,i)=>{
-                                        if (item != 'New') return <li key={i}><Button1 unique={true} value={statusLead} set={() => _setStatusHandler(data.data.leadid,item)} text={item}/></li>
+                                        if (item != 'New') return <li key={i}><Button1 unique={true} value={statusLead} set={() => _setStatusHandler(data.data.leadId,item)} text={item}/></li>
                                     })}
                                 </ul>
                             </div>
@@ -191,7 +177,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
                                 <p className='source_text'>Pindahkan ke Pipeline</p>
                                 <ul>
                                     {list_filter.filter_2.map((item,i)=>{
-                                        if (item != 'New') return <li key={i}><Button1 unique={true} value={pipelineLead} set={() => _setPipelineHandler(data.data.leadid,item,data.data.pipeline)} text={item}/></li>
+                                        if (item != 'New') return <li key={i}><Button1 unique={true} value={pipelineLead} set={() => _setPipelineHandler(data.data.leadId,item,data.data.pipeline)} text={item}/></li>
                                     })}
                                 </ul>
                             </div>
@@ -236,11 +222,11 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({re
     const isTokenAvailable  = req.cookies.token;
     const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
     const username          = verifyJwt(req.cookies.usr_token).username;
-    const leadid            = etc.params.id;
+    const leadId            = etc.params.id;
     let data                = []
 
 
-    const getData = await fetch(`${API_URL}/leads/detail/${leadid}`,{
+    const getData = await fetch(`${API_URL}/leads/detail/${leadId}`,{
         method:"GET",
         headers:{
             'Authorization': 'Bearer ' + req.cookies.token,

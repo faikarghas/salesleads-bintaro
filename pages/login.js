@@ -16,7 +16,7 @@ import {wrapper} from '../redux/store';
 
 
 const Login = ({authenticate,idusers}) => {
-  const [notifId,setNotifId] = useState('test-123')
+  const [notifId,setNotifId] = useState('00')
   const [loginText,setLoginText] = useState('Login')
 
   const formik = useFormik({

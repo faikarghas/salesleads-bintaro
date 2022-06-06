@@ -28,7 +28,7 @@ const sort_list = [
 ];
 
 
-function Leads({getFilterList,removeFilterList,badge,token,filter}) {
+function Leads({getFilterList,removeFilterList,badge,token,role}) {
   const [selectValue, setSelectValue] = useState("1");
   const [listFilterPipeline, setListFilterPipeline] = useState([]);
   const [listFilterStatus, setListFilterStatus] = useState([]);
@@ -53,7 +53,6 @@ function Leads({getFilterList,removeFilterList,badge,token,filter}) {
         return new Date(y.leadCreatedAt) - new Date(x.leadCreatedAt);
       })
       setLeads(sortDescending);
-      console.log('desc',sortDescending);
 
     } else {
       console.log('asc');
@@ -61,7 +60,6 @@ function Leads({getFilterList,removeFilterList,badge,token,filter}) {
         return new Date(x.leadCreatedAt) - new Date(y.leadCreatedAt);
       })
       setLeads(sortAscending);
-      console.log('asc',sortAscending);
 
     }
   };
@@ -78,17 +76,6 @@ function Leads({getFilterList,removeFilterList,badge,token,filter}) {
       return {
         isActive : !modal.isActive,
         id : id
-      }
-    })
-  }
-
-  const _showSubModal = (id) => {
-    setModal((modal)=>{
-      return {
-        isActive: modal.isActive,
-        subIsActive : !modal.subIsActive,
-        id : modal.id,
-        idSub : id
       }
     })
   }
@@ -114,19 +101,27 @@ function Leads({getFilterList,removeFilterList,badge,token,filter}) {
   }
 
   const _updateAccepted =  async (leadId) => {
-    const getData = await  fetch(`${API_URL}/leads/accept/${leadId}`,{
-      method:"PUT",
-      headers:{
-        'Authorization': 'Bearer ' + token,
+    if (role === 0) {
+      const getData = await  fetch(`${API_URL}/leads/accept/${leadId}`,{
+        method:"PUT",
+        headers:{
+          'Authorization': 'Bearer ' + token,
+        }
+      })
+      const data = await getData.json()
+      if (data.status === 200) {
+        router.push({
+          pathname: '/lead-management/[id]',
+          query: { id: leadId },
+        })
       }
-    })
-    const data = await getData.json()
-    if (data.status === 200) {
+    } else {
       router.push({
         pathname: '/lead-management/[id]',
         query: { id: leadId },
       })
     }
+
   }
 
   const _setQueryParams = (item) => {
@@ -223,7 +218,7 @@ function Leads({getFilterList,removeFilterList,badge,token,filter}) {
       <div className='content__wrapper'>
         <div className='lead__page'>
           <label className='text-center d-block'>Leads Berjalan ({leads.length})</label>
-            { isLeadsLoading ? 
+            { isLeadsLoading ?
             <div className="leads_loading active"></div>
             :
             leads.map((lead, i) =>{
@@ -232,7 +227,7 @@ function Leads({getFilterList,removeFilterList,badge,token,filter}) {
               let difference_ms = Math.abs(dateNow-datePass);
 
               return (
-                  <div onClick={()=>_updateAccepted(lead.leadid)}  key={i}>
+                  <div onClick={()=>_updateAccepted(lead.leadId)}  key={i}>
                       <Card1
                       info={lead.pipeline.toUpperCase()}
                       status_lead={lead.status}
@@ -331,7 +326,8 @@ function Leads({getFilterList,removeFilterList,badge,token,filter}) {
 const mapStateToProps = state => ({
   filter: state.filter.listFilter,
   badge: state.filter.badge,
-  token: state.auth.token
+  token: state.auth.token,
+  role: state.auth.role
 });
 
 const mapDispatchToProps = dispatch => {
