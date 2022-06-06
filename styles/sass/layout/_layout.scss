@@ -1,0 +1,109 @@
+main{
+    transition: all .2s;
+    margin-left: $width-drawer-not-active;
+    background: white;
+    position: relative;
+    @include respond(down-tab-port){
+        margin-left: 0;
+        padding-bottom: 7rem;
+    }
+    &.active{
+        margin-left: 235px;
+        @include respond(down-tab-port){
+            margin-left: 0;
+        }
+    }
+    .content__wrapper{
+        padding: 2rem;
+        min-height: 300px;
+    }
+}
+
+.header{
+    border-top: 2px solid $color-primary;
+    transition: all .2s;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    width: calc(100% - $width-drawer-not-active );
+    height: $header-height;
+    background-color: white;
+    border-bottom: $border-light;
+    padding: 0 4rem;
+    box-shadow: $box-shadow-1;
+    @include respond(down-tab-port){
+        width: 100%;
+        background-color: $color-primary;
+        padding: 0 2rem;
+    }
+    .hamburgerMenu{
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.3s;
+        @include respond(down-tab-port){
+            visibility: visible;
+            opacity: 1;
+        }
+        &.active{
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+}
+
+.header.active{
+    width: calc(100% - $width-drawer-active);
+    @include respond(down-tab-port){
+        width: 100%;
+    }
+}
+
+.toolbar__header{
+    transition: all .2s;
+    position: sticky;
+    top: 70px;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: calc(100%);
+    height: 60px;
+    background: white;
+    border-bottom: $border-light;
+}
+
+.content__wrapper{
+    margin-top: $header-height;
+    min-height: 100%;
+}
+
+.bottom__bar{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    min-height: 70px;
+    background-color: $color-primary;
+    display: flex;
+    z-index: 10;
+    box-shadow: 2px 8px 18px -9px #e2e2e2;
+    &--item{
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        a{
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 600;
+        }
+        &.active{
+            background-color: white;
+            a{
+                color: $color-primary;
+            }
+        }
+    }
+}

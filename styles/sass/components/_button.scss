@@ -1,0 +1,15 @@
+.button__model_1{
+    height: 3.3rem;
+    font-size: 1.4rem;
+    padding: 0 1.6rem;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 18px;
+    background-color: rgb(242, 242, 242);
+    cursor: pointer;
+    margin: 0 1rem 1rem 0rem;
+    &.active{
+        background-color: #2b598238;
+        color: $color-primary;
+    }
+}

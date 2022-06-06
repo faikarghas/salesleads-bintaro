@@ -1,0 +1,31 @@
+// @import "~bootstrap/scss/bootstrap";
+@import "abstracts/_mixins";
+@import "abstracts/_variables";
+
+@import "base/_animations";
+@import "base/_base";
+@import "base/_typography";
+@import "base/_utilities";
+
+@import "components/_card";
+@import "components/_button";
+@import "components/_modal";
+
+@import "layout/_sidebar";
+@import "layout/_layout";
+
+@import "pages/_leads";
+@import "pages/_dashboard";
+@import "pages/_setting";
+@import "pages/_reports";
+@import "pages/_login";
+
+
+
+
+
+
+
+
+
+

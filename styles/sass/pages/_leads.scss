@@ -1,0 +1,327 @@
+.header__leadsManagement{
+    position: sticky;
+    top: $header-height;
+    width: 100%;
+    height: calc($header-height - 10px);
+    background-color: white;
+    border-bottom: $border-light-2;
+    padding: 0 4rem;
+    z-index: 5;
+    h2{
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+    }
+    &-filter{
+        top: calc($header-height + $header-height - 10px);
+        height: calc($header-height - 20px);
+        border: none;
+        box-shadow: $box-shadow-1;
+        padding: 0 3rem;
+        &--filter,&--sort{
+            width: 50%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            cursor: pointer;
+            align-items: center;
+            img{
+                object-fit: contain;
+            }
+            label{
+                font-size: 1rem;
+                font-weight: 300;
+                color: #999;
+                cursor: pointer;
+                margin-bottom: 2px;
+            }
+            p{
+                font-size: 1.4rem;
+                font-weight: 600;
+                @include respond(down-tab-port){
+                    font-size: 1.1rem;
+                }
+            }
+
+        }
+        &--sort{
+            width: 50%;
+            border-right: $border-light-2;
+            padding-right: 2rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            img{
+                width: 15px;
+            }
+           .react-select__control{
+                border: none;
+                min-height: unset;
+                box-shadow: none;
+                cursor: pointer;
+           }
+           .react-select__value-container{
+               padding:0;
+           }
+           .react-select__single-value{
+                margin-left: 0;
+           }
+           .react-select__input-container{
+                margin: 0px;
+                padding-bottom: 0px;
+                padding-top: 0px;
+           }
+           .react-select__indicators {
+               display: none;
+           }
+        }
+        &--filter{
+            padding-left: 2rem;
+            img{
+                width: 23px;
+            }
+            .filter_w_badge{
+                position: relative;
+                .badge{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 17px;
+                    height: 17px;
+                    background-color: rgba(179, 14, 14, 0.966);
+                    border-radius: 50%;
+                    font-size: 8px;
+                    color: white;
+                    position: absolute;
+                    top: -5px;
+                    right: -10px;
+                }
+            }
+        }
+    }
+}
+
+.lead__page{
+    &>label{
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+}
+
+.lead__detail{
+    &_header{
+        background-color: $color-primary;
+        padding: 2rem 2rem 0;
+        .card__model_2{
+            transform: translateY(5rem);
+        }
+    }
+    &_body{
+        margin-top: 5rem;
+        padding: 2rem;
+        &--action{
+            background-color: white;
+            border-radius: 15px;
+            border: 1px solid lightgrey;
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            ul{
+                padding: 0;
+                margin: 0;
+                li{
+                    list-style: none;
+                    display: inline-block;
+                }
+            }
+            p{
+                color: black;
+                font-weight: 600;
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
+            }
+        }
+        &--nav{
+            margin-top: 3rem;
+            .nav-tabs{
+                border: none;
+                .nav-item{
+                    margin: 0 2rem;
+                    @include respond(down-tab-port){
+                        margin: 0 0.8rem;
+                    }
+                }
+            }
+            .nav-tabs .nav-link {
+                color: black;
+                font-size: 1.4rem;
+                font-weight: 600;
+                border: none;
+                padding: 0.5rem 0;
+            }
+            .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+                color: $color-primary;
+                border-bottom: 3px solid $color-primary;
+            }
+            .tab__content{
+                margin-top: 3rem;
+                &_listFilters{
+                    ul{
+                        padding: 0;
+                        margin: 0;
+                        li{
+                            list-style: none;
+                            display: inline-block;
+                        }
+                    }
+                }
+                &_body{
+                    margin-top: 4rem;
+                    &--toDo{
+                        label{
+                            margin-bottom: 1rem;
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                        }
+                        .card__toDo{
+                            &:hover{
+                                background-color: rgb(247 247 247 / 66%);
+                            }
+                            cursor: pointer;
+                            &--header{
+                                display: flex;
+                                justify-content: space-between;
+                                
+                            }
+                            &--body{
+                                padding: 2rem;
+                                ul{
+                                    padding: 0;
+                                    margin: 0;
+                                    li{
+                                        list-style: none;
+                                        p{
+                                            margin-bottom: 0.25;
+                                        }
+                                        .next__activity{
+                                            font-weight: 600;
+                                        }
+                                        .time{
+                                            font-size: 1.4rem;
+                                            font-weight: 600px;
+                                            margin-bottom: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .card__profile{
+                        padding: 2rem;
+                        label{
+                            font-size: 1.2rem;
+                            color: #999;
+                        }
+                        p{
+                            font-size: 1.4rem;
+
+                        }
+                    }
+
+                    .card__produktivitas{
+                        padding: 2rem;
+                        .react-select-container{
+                            display: inline-block;
+                            margin-bottom: 2rem;
+                            min-width: 150px;
+                            .react-select__control{
+                                min-height: unset;
+                                box-shadow: none;
+                                cursor: pointer;
+                            }
+                            // .react-select__value-container{
+                            //     padding-left: 1rem;
+                            //     border: none;
+                            //     font-size: 1.4rem;
+                            //     font-weight: 600;
+                            //     color: black;
+                            // }
+                        }
+
+                        .summary__activity{
+                            display: flex;
+                            flex-wrap: wrap;
+                            &_item{
+                                width: 50%;
+                                padding: 2rem;
+                                &:first-child,&:nth-child(2){
+                                    border-bottom: 1px solid lightgray;
+                                }
+                                &:nth-child(odd){
+                                    border-right: 1px solid lightgray;
+                                }
+                                h3{
+                                    font-size: 2.4rem;
+                                }
+                                label{
+                                    font-size: 1.4rem;
+                                }
+                            }
+                        }
+
+                        
+                    }
+                    .lf-wr{
+                        padding-left: 6rem;
+                        &::before{
+                            content: '';
+                            width: 1px;
+                            height: 100%;
+                            background-color: lightgray;
+                            position: absolute;
+                            top: 0;
+                            left: 4rem;
+                        }
+                        .card__lifecycle{
+                            padding: 2rem;
+                            .activity{
+                                font-size: 1.4rem;
+                                font-weight: 600;
+                            }
+                            .date{
+                                margin-top: 2rem;
+                                font-size: 1.2rem;
+                                color: #999;
+                            }
+                        }
+                        .sm-circle{
+                            position: absolute;
+                            width: 18px;
+                            height: 18px;
+                            box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.575);
+                            border-radius: 50px;
+                            top: 0;
+                            left: 0rem;
+                            background-color: white;
+                            span{
+                                background-color: $color-primary;
+                                width: 10px;
+                                height: 10px;
+                                border-radius: 50%;
+                                display: block;
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%,-50%);
+                            }
+                        }
+                    }
+
+                }
+               
+            }
+        }
+    }
+}

@@ -1,0 +1,90 @@
+.card_lead{
+  background-color: white;
+  border-radius: 15px;
+  width: 100%;
+  box-shadow: 0 2px 5px 1px rgb(0 0 0 / 16%);
+  transition: all 0.2s;
+}
+
+.card__model_1,.card__model_2,.card__toDo{
+  margin-bottom: 1.5rem;  
+  &--header{
+    padding: 2rem 2rem 0;
+    .info__lead{
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+  }
+  &--footer{
+    border-top: $border-light-2;
+    padding: 2rem;
+  }
+  
+}
+
+.card__model_1{
+  cursor: pointer;
+
+  &:hover{
+    background-color: rgb(247 247 247 / 66%);
+  }
+  &--body{
+    padding: 2rem;
+    .client__name{
+      font-size: 2rem;
+      font-family: 'Nunito', sans-serif;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    .project__name{
+      font-size: 1.4rem;
+      font-weight: 300;
+      margin-bottom: 1rem !important;
+    }
+    .assigned__agent{
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+  }
+}
+.card__model_2{
+  &--body{
+    padding: 2rem;
+    .client__name{
+      font-size: 2rem;
+      font-weight: 600;
+      font-family: 'Nunito', sans-serif;
+      margin-bottom: 0.2rem;
+    }
+    .project__name{
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 1.5rem !important;
+    }
+    .client__contact{
+      ul{
+        margin: 0;
+        padding: 0;
+        li{
+          list-style: none;
+          margin: 0 1.2rem;
+          cursor: pointer;
+          .rounded-circle{
+            background-color: $color-primary;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          span{
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+    .assigned__agent{
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+  }
+}

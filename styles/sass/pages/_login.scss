@@ -1,0 +1,48 @@
+.login_page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color_primary;
+    height: 100vh;
+    @include respond(down-tab-port){
+        padding: 2rem;
+    }
+    .login_container{
+        background-color: white;
+        border-radius: 5px;
+        width: 300px;
+        padding: 2rem;
+        @include respond(down-tab-port){
+            width: 100%;
+        }
+        label{
+            color: black;
+            font-size: 1.4rem;
+        }
+        input{
+            padding: 1rem;
+            font-size: 1.6rem;
+            border: none;
+            border-bottom: 1px solid lightgray;
+            color: rgb(34, 34, 34);
+            &:focus{
+                border: none;
+                outline: none;
+                box-shadow: none;
+            }
+            &::placeholder{
+                color: lightgrey;
+                font-size: 1.6rem;
+            }
+        }
+        button{
+            background-color: $color_primary;
+            font-size: 1.4rem;
+            box-shadow: none;
+            border: none;
+            padding: 1rem 0;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+    }
+}

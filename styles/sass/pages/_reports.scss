@@ -1,0 +1,40 @@
+.card__laporan{
+    padding: 2rem;
+    .report-info{
+        @include respond(down-tab-port){
+            margin-bottom: 2rem;
+        }
+        span{
+            font-size: 1.4rem;
+            &:first-child{
+                color: #999;
+            }
+            &:last-child{
+                font-weight: 500;
+            }
+        }
+    }
+
+    .report-action{
+        display: inline-flex;
+        
+       .edit-email,.send-email{
+            display: block;
+            padding: 1rem;
+            border: 1px solid $color_primary;
+            border-radius: 5px;
+            font-size: 1.4rem;
+            color: white;
+            background-color: $color_primary;
+            width: 120px;
+            font-weight: 600;
+            margin-left: 1rem;
+            text-align: center;
+            @include respond(down-tab-port){
+                margin-left: 0;
+                margin-right: 1rem;
+            }
+        }
+    }
+
+}

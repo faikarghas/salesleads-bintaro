@@ -1,0 +1,57 @@
+.card__akun{
+    padding: 2rem;
+    ul{
+        margin: 0;
+        padding: 0;
+        li{
+            list-style: none;
+            border-bottom: $border-light;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            &:last-child{
+                border: none;
+            }
+            a,span{
+                display: block;
+                font-size: 1.4rem;
+                font-weight: 600;
+                color: $color_primary;
+                text-decoration: none;
+                cursor: pointer;
+                padding: 1.5rem 0;
+                width: 100%;
+                &:hover{
+                    color: inherit;
+                }
+            }
+        }
+    }
+    form{
+        label{
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        input{
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            border: $border-light;
+            width: 100%;
+            display: block;
+            @include respond(down-tab-port){
+                width: 100%;
+            }
+        }
+        button{
+            font-size: 1.4rem;
+            width: 100%;
+            background-color: $color-primary;
+            border: none;
+            box-shadow: none;
+            &:hover{
+                background-color: $color-primary;
+            }
+        }
+    }
+}

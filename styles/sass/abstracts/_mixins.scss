@@ -1,0 +1,96 @@
+@mixin clearfix {
+    &::after{
+        content : "";
+        display : table;
+        clear   : both;
+    }
+}
+
+@mixin absCenter{
+    position    : absolute;
+    top         : 50%;
+    left        : 50%;
+    transform   : translate(-50%,-50%)
+}
+
+@mixin absCenterBottom{
+    position    : absolute;
+    bottom      : 0%;
+    left        : 50%;
+    transform   : translate(-50%,-50%)
+}
+
+@mixin dimension($diameter) {
+    margin: -(($diameter / 2)-5) 0 0 0-($diameter / 2);
+    height: $diameter;
+    width: $diameter;
+}
+
+
+//MEDIA QUERY MANAGER
+/*
+0 - 650px       :   Phone
+650 - 992px     :   Tablet Potrait
+650 - 1200px    :   Tablet Landscape
+[1200 - 1800px] :   Desktop
+1800px +        :   Big Desktop
+*/
+
+@mixin respond-phone {
+    @media (max-width: 600px) {@content};
+}
+
+
+/* 
+$breakpoint argument choices:
+- phone
+- tab-port
+- tab-lans
+- big-desktop
+
+ORDER:  Base + typography > general layout + grid > page layout > components
+
+1em = 16px
+*/
+@mixin respond($breakpoint) {
+    @if $breakpoint == down-phone270 {
+        @media only screen and (max-width: 16.875em) { @content };    //320px
+    }
+    @if $breakpoint == down-phone320 {
+        @media only screen and (max-width: 20em) { @content };    //320px
+    }
+    @if $breakpoint == down-phone375 {
+        @media only screen and (max-width: 23.44em) { @content };    //375px
+    }
+    @if $breakpoint == down-phone414 {
+        @media only screen and (max-width: 25.875em) { @content };    //414px
+    }
+    @if $breakpoint == down-phone {
+        @media only screen and (max-width: 40.625em) { @content };    //650px
+    }
+    @if $breakpoint == down-tab-medium {
+        @media only screen and (max-width: 48em) { @content };    //768px
+    }
+    @if $breakpoint == down-tab-port {
+        @media only screen and (max-width: 62em) { @content };     //992px
+    }
+    @if $breakpoint == down-tab-land {
+        @media only screen and (max-width: 64em) { @content };    //1024px
+    }
+    @if $breakpoint == down-desktop {
+        @media only screen and (max-width: 75em) { @content };    //1200px
+    }
+    @if $breakpoint == down-big-desktop {
+        @media only screen and (max-width: 112.5em) { @content };    //1800
+    }
+
+}
+
+// >1200
+// >992
+// >768
+// >576
+// <576
+
+
+

@@ -1,0 +1,367 @@
+.avatar {
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $color-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.border-r-50{
+  border-radius: 50%;
+}
+.w-50-px{
+  width: 50px;
+}
+.h-50-px{
+  height: 50px;
+}
+
+.breadcrumb{
+  li{
+      a{
+          font-size: 1.2rem;
+      }
+  }
+}
+
+ a{
+    text-decoration: none;
+    color: inherit;
+    &:hover{
+      color: inherit;
+    }
+}
+
+.status__lead{
+    font-size: 1.2rem;
+    border-radius: 8px;
+    padding: 0.2rem 0.8rem;
+    line-height: 1em;
+    text-transform: uppercase;
+    margin-left: 1rem;
+    font-family: 'Roboto', sans-serif;
+    &.warm{
+      color: rgb(252, 180, 10);
+      background-color: rgba(252, 180, 10, 0.19);
+    }
+    &.cold{
+      color: rgb(15, 185, 191);
+      background-color: rgba(15, 185, 191, 0.19);
+    }
+    &.hot{
+      color: rgb(182, 29, 34);
+      background-color: rgba(182, 29, 34, 0.19);
+    }
+    &.close{
+      color: rgb(255, 255, 255);
+      background-color: rgba(73, 73, 73, 0.658);
+    }
+}
+
+.next__activity{
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  line-height: 1em;
+  span{
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+  }
+}
+.last__activity{
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: rgb(153, 153, 153);
+}
+
+.btn-call{
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  color: $color-primary;
+  border: 1px solid $color-primary;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.react-select__value-container{
+  padding-left: 1rem;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: black !important;
+}
+
+.react-select__placeholder,.react-select__single-value{
+  padding: 0;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: black !important;
+  height: unset;
+  @include respond(down-tab-port){
+    font-size: 1.1rem;
+}
+}
+
+.react-select__option{
+  font-size: 1.4rem !important;
+  @include respond(down-tab-port){
+    font-size: 1.1rem !important;
+}
+}
+
+.tambah_tugas{
+  width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: $color-primary;
+    position: fixed;
+    right: 10px;
+    bottom: 50px;
+    box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
+    color: $color-primary;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid lightgray;
+    &:hover{
+      // background-color: #060f16;
+    }
+    p{
+      line-height: 1em;
+      color: white;
+    }
+}
+
+.cls-1{
+  &.active{
+      fill: rgb(255, 227, 102) !important;
+  }
+}
+
+.cls-2{
+  cursor: pointer;
+  &.active{
+      fill: rgb(255, 227, 102) !important;
+  }
+}
+
+// funnel
+.funnel__wrapper{
+    shape-margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    margin: auto;
+    margin-bottom: 2rem;
+    .funnel_container{
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .stage_lost{
+      position: absolute;
+      right: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 103px;
+      background-color: rgb(255, 240, 233);
+      z-index: 2;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px 0 rgb(156 152 152 / 50%);
+      padding: 0.2rem 0.5rem;
+      span{
+        color:orangered;
+        display: block;
+        font-size: 1.2rem;
+        &:first-child{
+        }
+      }
+    }
+    .funnel_item{
+        position: relative;
+      &_header{
+        min-height: 66px;
+        background-image:  linear-gradient(to bottom, rgb(116, 116, 193) 0px, rgb(162, 162, 222) 100%);
+        position: relative;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        span{
+          color: white;
+          font-weight: 500;
+          line-height: 1em;
+          &:first-child{
+            font-size: 1.4rem;
+          }
+          &:last-child{
+            font-size: 1.2rem;
+          }
+          &.type{
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            font-size: 1rem;
+          }
+        }
+      }
+      &_body{
+        min-height: 50px;
+        background-color: rgb(245, 245, 255);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        span{
+          font-size: 1rem;
+          &:first-child{
+            font-weight: 500;
+          }
+        }
+      }
+      .funnel_header2{
+        position: relative;
+        background-color: rgb(116, 116, 193);
+        height: 8px;
+        z-index: 10;
+        top: 1px;
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        margin: auto;
+        width: calc(100% - 3px);
+      }
+
+      .funnel_bottom{
+        position: relative;
+        background-color: rgb(116, 116, 193);
+        height: 8px;
+        z-index: 10;
+        bottom: 1px;
+        border-radius: 0 0 8px 8px;
+        display: flex;
+        margin: auto;
+        width: 127px;
+      }
+    }
+    .funnel_1{
+      width: 300px;
+      clip-path: polygon(0px 0px, 100% 0px, 287px 100%, 13px 100%);
+    }
+    .funnel_2{
+      width: 274px;
+      clip-path: polygon(0px 0px, 100% 0px, 261px 100%, 13px 100%);
+    }
+    .funnel_3{
+      width: 248px;
+      clip-path: polygon(0px 0px, 100% 0px, 235px 100%, 13px 100%);
+    }
+    .funnel_4{
+      width: 222px;
+      clip-path: polygon(0px 0px, 100% 0px, 209px 100%, 13px 100%);
+    }
+    .funnel_5{
+      width: 196px;
+      clip-path: polygon(0px 0px, 100% 0px, 183px 100%, 13px 100%);
+    }
+    .funnel_6{
+      width: 170px;
+      clip-path: polygon(0px 0px, 100% 0px, 157px 100%, 13px 100%);
+      .funnel_item_header{
+        background-image: linear-gradient(rgb(72, 72, 130) 0px, rgb(116, 116, 193) 100%)
+      }
+    }
+    .funnel_7{
+      width: 144px;
+      clip-path: polygon(0px 0px, 100% 0px, 134px 100%, 10px 100%);
+      .funnel_item_header{
+        background-image: linear-gradient(rgb(72, 72, 130) 0px, rgb(116, 116, 193) 100%)
+      }
+    }
+
+}
+
+.btn-tambah{
+  background-color: $color-primary;
+  color: white;
+  padding: 1rem;
+  font-size: 1.4rem;
+  border-radius: 5px;
+  &:hover{
+    color:white;
+  }
+}
+
+.welcome_text{
+  position: absolute;
+  top: 6rem;
+  left: 6rem;
+  @include respond(down-tab-port){
+    top: 2rem;
+    left: 2rem;
+  }
+  h1,h3{
+    color: white;
+  }
+  h1{
+    font-size: 4rem;
+    margin-bottom: 4rem;
+  }
+  h3{
+    font-size: 3rem;
+  }
+}
+
+
+.toast-title,.toast-body{
+  font-size: 1.4rem;
+}
+.toast-title{
+  padding-left: 7.5px;
+}
+
+.error-input{
+  color: red;
+  text-align: start;
+  padding-top: 0.5px;
+  padding-left: 1rem;
+}
+
+.leads_loading {
+  &.active{
+    width: 100%;
+    height: 166px;
+    cursor: progress;
+    border-radius: 15px;
+    background:
+      linear-gradient(0.25turn, transparent, #fff, transparent),
+      linear-gradient(#eee, #eee),
+      radial-gradient(38px circle at 19px 19px, #eee 50%, transparent 51%),
+      linear-gradient(#eee, #eee);
+    background-repeat: no-repeat;
+    background-size: 315px 250px, 100% 180px, 100px 100px, 225px 30px;
+    background-position: -315px 0, 0 0, 0px 190px, 50px 195px;
+    animation: loading 1.5s infinite;
+  }
+}
+
+@keyframes loading {  
+  to {
+    background-position: 315px 0, 0 0, 0 190px, 50px 195px;
+  }
+}
+
+.send-email,.edit-email{
+  cursor: pointer;
+}
