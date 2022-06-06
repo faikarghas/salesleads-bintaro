@@ -33,33 +33,3 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-
-let pipeQuery = req.query.pipeline ? '"' + req.query.pipeline.split(",").join("\",\"") + '"' : ""
-let statQuery = req.query.status ? '"' + req.query.status.split(",").join("\",\"") + '"' : ""  
-
-
-{reports.map((report,i)=>{
-          return (
-            <Card className={'card__laporan mb-5'} key={i}>
-              <h4 className='mb-4'>{report.reportName}</h4>
-              <div className='d-flex align-items-end justify-content-between flex-wrap'>
-                <div className='report-info'>
-                  <span className='d-block'> Pengiriman Berikutnya Dijadwalkan </span>
-                  <span className='d-block'> Jalankan Berikutnya:31-Mar-2022 </span>
-                </div>
-                <div className='report-action'>
-                  <div className='edit-email' onClick={()=>_showModal(2,report.reportId,report.reportName,report.period,report.frequency)}>Ubah</div>
-                  {/* <div className='send-email' onClick={()=>_sendReport(report.reportId)}>Email Laporan</div> */}
-                  <ExcelDownloder
-                    data={dataex}
-                    filename={'book'}
-                    type={Type.Button} // or type={'button'}
-                    className='send-email'
-                  >
-                    Download
-                  </ExcelDownloder>
-                </div>
-              </div>
-            </Card>
-          )
-        })}
