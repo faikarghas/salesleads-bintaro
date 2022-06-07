@@ -1,7 +1,7 @@
 import react, {useEffect} from 'react';
 import SSRProvider from 'react-bootstrap/SSRProvider';
 // import OneSignal from 'react-onesignal';
-
+import NextNProgress from "nextjs-progressbar";
 import { wrapper } from '../redux/store'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -33,6 +33,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
         <SSRProvider>
+          <NextNProgress color="#85bae9" />
           <Component {...pageProps} />
         </SSRProvider>
   )
