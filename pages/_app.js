@@ -27,6 +27,10 @@ function MyApp({ Component, pageProps }) {
       // OneSignal.init(initConfig);
     });
 
+    if (localStorage.getItem('isPushNotificationsEnabled') === true) {
+      document.getElementById('onesignal-bell-container').style.display = "none";
+    }
+
     return () => {
     };
   }, []);
