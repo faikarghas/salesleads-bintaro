@@ -74,7 +74,7 @@ const Login = ({authenticate,idusers}) => {
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-3">
             <input type="text" name="email" className="form-control" onChange={formik.handleChange}
-            value={formik.values.email} placeholder='Username'/>
+            value={formik.values.email} placeholder='Email'/>
             {formik.touched.email && formik.errors.email ? <div className='error-input'>{formik.errors.email}</div> : null}
           </div>
           <div className="mb-3">
