@@ -35,7 +35,11 @@ const Layout = (props) => {
     }
 
     useEffect(() => {
-        console.log(props.role);
+        if (window.localStorage.getItem('isPushNotificationsEnabled')) {
+            console.log('isPushNotif', window.localStorage.getItem('isPushNotificationsEnabled'));
+          } else {
+            console.log('Not isPushNotif', window.localStorage.getItem('isPushNotificationsEnabled'));
+          }
     }, [])
 
 

@@ -63,7 +63,7 @@ const Login = ({authenticate,idusers}) => {
 
 
   return (
-    <div className='login_page'>
+    <div id="login_wrapper" className='login_page'>
         <div className='login_container text-center'>
         <Image alt="logo" src='/images/bintaro-jaya-logo-color.svg' width={150} height={50}/>
         <p>{notifId}</p>

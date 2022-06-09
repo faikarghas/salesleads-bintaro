@@ -1,5 +1,6 @@
 import React,{useEffect,useState,useRef} from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Select from "react-select";
 import {verifyJwt} from '../../utils/verifyJwt'
 import {API_URL,API_URL_LOCAL} from '../../utils/config'
@@ -53,6 +54,7 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
     });
 
     const { ExcelDownloder, Type } = useExcelDownloder();
+    const router = useRouter()
 
     const handleInput = (_selectValue,name) => {
         const value = _selectValue.target.value;
@@ -91,7 +93,7 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
 
     const _addReport = () => {
       setLoadingText('Loading...')
-      fetch(`${API_URL}/stats/report`,{
+      fetch(`${API_URL}/stats/settings`,{
         method:"POST",
         headers:{
           'Authorization': 'Bearer '+token,
@@ -111,6 +113,7 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
           setLoadingText('Submit')
         }, 2000);
         setLoadingText('Report Berhasil ditambah')
+        router.reload(window.location.pathname)
       })
     }
 

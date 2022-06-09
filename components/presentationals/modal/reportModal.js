@@ -1,5 +1,6 @@
 import React,{useEffect,useState,useRef} from 'react'
 import Select from "react-select";
+import { useRouter } from 'next/router'
 import Modal from '.'
 import {Close} from '../close/index'
 import {API_URL,API_URL_LOCAL} from '../../../utils/config'
@@ -28,6 +29,7 @@ const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idRe
     });
     const [textInput,setTextInput] = useState(reportName ? reportName : '')
     const [loadingText,setLoadingText] = useState('Submit')
+    const router = useRouter()
 
     const handleChange = (_selectValue,name) => {
         const value = _selectValue;
@@ -44,7 +46,7 @@ const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idRe
 
     const _updateReport = () => {
         setLoadingText('Loading...')
-        fetch(`${API_URL}/stats/report/${idReport}`,{
+        fetch(`${API_URL}/stats/settings/${idReport}`,{
             method:"PUT",
             headers:{
               'Authorization': 'Bearer '+token,
@@ -64,6 +66,7 @@ const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idRe
               setLoadingText('Submit')
             }, 2000);
             setLoadingText('Report Berhasil ditambah')
+            router.reload(window.location.pathname)
           })
       }
 
@@ -115,7 +118,7 @@ const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idRe
               </form>
           </div>
           <div className={`modal__cs--footer }`}>
-              <button className='btn btn-primary btn-simpan w-100 p-2' onClick={_updateReport}>Submit</button>
+              <button className='btn btn-primary btn-simpan w-100 p-2' onClick={_updateReport}>{loadingText}</button>
           </div>
     </Modal>
   )

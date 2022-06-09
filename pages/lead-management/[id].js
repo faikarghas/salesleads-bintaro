@@ -65,7 +65,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
         }
     }
 
-    const _updateContacted = async (leadId,contact) => {
+    const _updateContacted = async (leadId,contact,type) => {
         const getData = await  fetch(`${API_URL}/leads/contact/${leadId}`,{
             method:"PUT",
             headers:{
@@ -81,21 +81,21 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
             switch (contact) {
                 case 'telephone':
                     window.open(
-                        'tel:+6281287831421',
+                        `tel:${type}`,
                         '_blank'
                     );
                     router.reload(window.location.pathname)
                     break;
                 case 'wa':
                     window.open(
-                        'https://api.whatsapp.com/send?phone=6281287831421',
+                        `https://api.whatsapp.com/send?phone=${type}`,
                         '_blank'
                     );
                     router.reload(window.location.pathname)
                     break;
                 case 'mail':
                     window.open(
-                        'mailto: ghassanfaikar1@gmail.com',
+                        `mailto: ${type}`,
                         '_blank'
                     );
                     router.reload(window.location.pathname)
@@ -148,9 +148,9 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
                                     <p className='m-0 project__name'>Bintaro Jaya</p>
                                     <div className='client__contact'>
                                         <ul className='d-flex justify-content-center'>
-                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'telephone')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="telephone" src={'/images/telephone.png'} width={25} height={25}/></div><span>Telephone</span></li>
-                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'wa')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="wa" src={'/images/whatsapp.png'} width={24} height={24}/></div><span>WhatsApp</span></li>
-                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'mail')} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="mail" src={'/images/email.png'} width={28} height={28}/></div><span>Email</span></li>
+                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'telephone',data.data.leadPhone)} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="telephone" src={'/images/telephone.png'} width={25} height={25}/></div><span>Telephone</span></li>
+                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'wa',data.data.leadPhone)} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="wa" src={'/images/whatsapp.png'} width={24} height={24}/></div><span>WhatsApp</span></li>
+                                            <li><div onClick={()=>_updateContacted(data.data.leadId,'mail',data.data.leadEmail)} className='w-50-px h-50-px rounded-circle mb-2'><Image alt="mail" src={'/images/email.png'} width={28} height={28}/></div><span>Email</span></li>
                                         </ul>
                                     </div>
                                 </div>

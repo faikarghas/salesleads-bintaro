@@ -27,13 +27,7 @@ function MyApp({ Component, pageProps }) {
       // OneSignal.init(initConfig);
     });
 
-    if (window.localStorage.getItem('isPushNotificationsEnabled')) {
-      console.log('isPushNotif', window.localStorage.getItem('isPushNotificationsEnabled'));
-      document.getElementById('onesignal-bell-container').style.display = "none";
-    } else {
-      console.log('Not isPushNotif', window.localStorage.getItem('isPushNotificationsEnabled'));
-    }
-
+    
     return () => {
     };
   }, []);
