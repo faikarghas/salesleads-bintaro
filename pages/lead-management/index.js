@@ -234,7 +234,7 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
                       name={lead.leadName}
                       project_name='Bintaro Jaya'
                       assigned_agent={`${lead.userNotifiedName ? lead.userNotifiedName : lead.userAcceptedName}`}
-                      last_activity={getCurrentDate(lead.createdAt)}
+                      last_activity={getCurrentDate(lead.leadCreatedAt)}
                       // last_activity={`Sales terkait ${userNotifiedName}`}
                       next_activity={``}
                       />

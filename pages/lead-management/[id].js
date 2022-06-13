@@ -65,7 +65,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
         }
     }
 
-    const _updateContacted = async (leadId,contact,type) => {
+    const _updateContacted = async (leadId,contact,contactValue) => {
         const getData = await  fetch(`${API_URL}/leads/contact/${leadId}`,{
             method:"PUT",
             headers:{
@@ -81,21 +81,28 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
             switch (contact) {
                 case 'telephone':
                     window.open(
-                        `tel:${type}`,
+                        `tel:${contactValue}`,
                         '_blank'
                     );
                     router.reload(window.location.pathname)
                     break;
                 case 'wa':
+                    let formattedWaValue = contactValue.split('')
+                    console.log(formattedWaValue,'format1')
+
+                    if (formattedWaValue[0] === "+" && formattedWaValue[1] === "6" && formattedWaValue[2] === "2"){
+                        formattedWaValue = formattedWaValue.slice(3).join('')
+                    }
+
                     window.open(
-                        `https://api.whatsapp.com/send?phone=${type}`,
+                        `https://api.whatsapp.com/send?phone=${formattedWaValue}`,
                         '_blank'
                     );
                     router.reload(window.location.pathname)
                     break;
                 case 'mail':
                     window.open(
-                        `mailto: ${type}`,
+                        `mailto: ${contactValue}`,
                         '_blank'
                     );
                     router.reload(window.location.pathname)
@@ -114,6 +121,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
           }
         })
         const result = await getData.json()
+        console.log(result.data)
         setHistory(result.data);
     };
 

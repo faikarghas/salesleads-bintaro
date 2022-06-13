@@ -1,6 +1,6 @@
 export function getCurrentDate(_time){
 
-    let newDate = new Date()
+    let newDate = new Date(_time)
     let date = newDate.getDate();
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
