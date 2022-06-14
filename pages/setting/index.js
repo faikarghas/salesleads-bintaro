@@ -25,7 +25,7 @@ function Setting({deauthenticate,token}) {
         <div className='content__wrapper'>
             <Card className='card__akun mb-4'>
               <ul>
-                <li><Link href="/setting/new-password"><a>Ubah Password</a></Link><Image src={'/images/next.png'} width={20} height={20} alt="Arrow icons created by Handicon - Flaticon"/></li>
+                <li><Link href="/setting/change-password"><a>Ubah Password</a></Link><Image src={'/images/next.png'} width={20} height={20} alt="Arrow icons created by Handicon - Flaticon"/></li>
                 {/* <li><Link href=""><a>Tanda Tangan Email</a></Link><Image src={'/images/next.png'} width={20} height={20} alt="Arrow icons created by Handicon - Flaticon"/></li> */}
                 <li onClick={()=>deauthenticate(token)}> <span>Keluar</span> <Image src={'/images/next.png'} width={20} height={20} alt="Arrow icons created by Handicon - Flaticon"/></li>
               </ul>

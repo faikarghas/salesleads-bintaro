@@ -88,6 +88,7 @@ export const deauthenticate = (token) => {
           } else if (response.status == 200) {
             dispatch({type: actionTypes.DEAUTHENTICATE});
             removeCookie('token')
+            console.log('TOKEN REMOVED');
             Router.replace('/login');
           }
 
