@@ -2,10 +2,6 @@ import Image from 'next/image'
 import React,{useEffect,useState} from 'react'
 import Link from 'next/link';
 
-import {getCookie,setCookie} from '../utils/cookie'
-import { getMessaging, onMessage } from "firebase/messaging";
-import {firebaseInit,getFCMToken} from '../firebase'
-
 import {useFormik } from 'formik'
 import * as Yup from 'yup';
 
@@ -15,7 +11,7 @@ import {wrapper} from '../redux/store';
 
 
 
-const Login = ({authenticate,idusers}) => {
+const ForgetPassword = ({authenticate,idusers}) => {
   const [notifId,setNotifId] = useState('00')
   const [loginText,setLoginText] = useState('Login')
 
@@ -81,8 +77,8 @@ const Login = ({authenticate,idusers}) => {
             <input type="password" name="password" className="form-control" onChange={formik.handleChange}
             value={formik.values.password} placeholder='Password'/>
           </div>
-          <div className="d-flex justify-content-end mb-4 text-primary" style={{fontSize:'1.2rem'}}>
-            <Link  href="#"><a>Forget Password</a></Link>
+          <div>
+            <Link href="/forget-password"><a>Forget Password</a></Link>
           </div>
           <button type="submit" className="btn btn-primary w-100">{loginText}</button>
         </form>
@@ -117,7 +113,7 @@ export const getServerSideProps = wrapper.getStaticProps(store => ({req, res, ..
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(ForgetPassword);
 
 
 

@@ -121,8 +121,12 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
           }
         })
         const result = await getData.json()
-        console.log(result.data)
-        setHistory(result.data);
+
+        let sortDescending = result.data.sort(function(x, y){
+            return new Date(y.createdAt) - new Date(x.createdAt);
+        })
+        setHistory(sortDescending);
+
     };
 
     useEffect(() => {

@@ -37,7 +37,7 @@ const Detail = ({data}) => {
                 </div>
                 <div className=''>
                     <label>Period</label>
-                    <p>{getCurrentDate(data.data.leadPeriod)}</p>
+                    <p>{data.data.leadPeriod}</p>
                 </div>
                 <div className=''>
                     <label>Source</label>
@@ -47,10 +47,6 @@ const Detail = ({data}) => {
                     <label>Price</label>
                     <p>{data.data.leadPrice}</p>
                 </div>
-                {/* <div className=''>
-                    <label>Region</label>
-                    <p>{data.data.leadRegion}</p>
-                </div> */}
                 <div className=''>
                     <label>City</label>
                     <p>{data.data.leadCity}</p>

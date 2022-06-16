@@ -222,20 +222,29 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
             <div className="leads_loading active"></div>
             :
             leads.map((lead, i) =>{
-              let dateNow = new Date()
-              let datePass = new Date(lead.leadUpdatedAt)
-              let difference_ms = Math.abs(dateNow-datePass);
+              let statusLead = lead.status;
+
+              if(lead.userAcceptedName){
+                if (lead.status !== 'Hot' &&
+                lead.status !== 'Warm' &&
+                lead.status !== 'Cold' &&
+                lead.status !== 'Close'
+                ) {
+                  statusLead = ' ';
+                }
+              } else {
+                statusLead = lead.status;
+              }
 
               return (
                   <div onClick={()=>_updateAccepted(lead.leadId)}  key={i}>
                       <Card1
                       info={lead.pipeline.toUpperCase()}
-                      status_lead={lead.status}
+                      status_lead={statusLead}
                       name={lead.leadName}
                       project_name='Bintaro Jaya'
-                      assigned_agent={`${lead.userNotifiedName ? lead.userNotifiedName : lead.userAcceptedName}`}
+                      assigned_agent={`Sales: ${lead.userNotifiedName ? lead.userNotifiedName : lead.userAcceptedName}`}
                       last_activity={getCurrentDate(lead.leadCreatedAt)}
-                      // last_activity={`Sales terkait ${userNotifiedName}`}
                       next_activity={``}
                       />
                   </div>

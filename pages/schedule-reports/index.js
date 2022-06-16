@@ -166,7 +166,7 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
               <div className='d-flex align-items-end justify-content-between flex-wrap'>
                 <div className='report-info'>
                   <span className='d-block'> Pengiriman Berikutnya Dijadwalkan </span>
-                  <span className='d-block'> Jalankan Berikutnya:31-Mar-2022 </span>
+                  <span className='d-block'> </span>
                 </div>
                 <div className='report-action'>
                   <div className='edit-email' onClick={()=>_showModal(2,report.reportId,report.reportName,report.period,report.frequency)}>Ubah</div>
