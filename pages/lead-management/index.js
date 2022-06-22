@@ -235,9 +235,9 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
               } else {
                 statusLead = lead.status;
               }
-
+              console.log(lead);
               return (
-                  <div onClick={()=>_updateAccepted(lead.leadId)}  key={i}>
+                  <div onClick={()=>_updateAccepted(lead.leadid)}  key={i}>
                       <Card1
                       info={lead.pipeline.toUpperCase()}
                       status_lead={statusLead}
