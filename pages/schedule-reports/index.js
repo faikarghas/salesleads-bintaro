@@ -36,6 +36,7 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
     const [reports,setReport] = useState([]);
     const [reportsSummary,setReportSummary] = useState([]);
     const [loadingText,setLoadingText] = useState('Submit')
+    const [deleteText,setDeleteText] = useState('Hapus')
     const [selectValue, setSelectValue] = useState({
       namaLaporan:'',
       periode: '',
@@ -117,6 +118,24 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
       })
     }
 
+    const _deleteReport = (id) => {
+      setDeleteText('Loading...')
+      fetch(`${API_URL}/stats/settings/${id}`,{
+        method:"DELETE",
+        headers:{
+          'Authorization': 'Bearer '+token,
+          'Content-Type':'application/json'
+        },
+      })
+      .then(response => {
+        return response.json()
+      })
+      .then(response => {
+        setDeleteText('Hapus')
+        router.reload(window.location.pathname)
+      })
+    }
+
     const downloadReport = async () => {
       let year = new Date().getFullYear();
 
@@ -179,6 +198,7 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
                   >
                     Download
                   </ExcelDownloder>
+                  <div className='delete-email' onClick={()=>_deleteReport(report.reportId)}>{deleteText}</div>
                 </div>
               </div>
             </Card>

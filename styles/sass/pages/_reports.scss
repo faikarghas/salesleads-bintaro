@@ -35,6 +35,23 @@
                 margin-right: 1rem;
             }
         }
+        .delete-email{
+            display: block;
+            padding: 1rem;
+            border: 1px solid $color_primary;
+            border-radius: 5px;
+            font-size: 1.4rem;
+            color: white;
+            background-color: red;
+            width: 120px;
+            font-weight: 600;
+            margin-left: 1rem;
+            text-align: center;
+            @include respond(down-tab-port){
+                margin-left: 0;
+                margin-right: 1rem;
+            }
+        }
     }
 
 }

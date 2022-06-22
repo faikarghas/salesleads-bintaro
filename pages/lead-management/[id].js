@@ -91,7 +91,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
                     console.log(formattedWaValue,'format1')
 
                     if (formattedWaValue[0] === "+" && formattedWaValue[1] === "6" && formattedWaValue[2] === "2"){
-                        formattedWaValue = formattedWaValue.slice(3).join('')
+                        formattedWaValue = formattedWaValue.slice(1,14).join('')
                     }
 
                     window.open(

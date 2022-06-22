@@ -1,6 +1,5 @@
 import react, {useEffect} from 'react';
 import SSRProvider from 'react-bootstrap/SSRProvider';
-// import OneSignal from 'react-onesignal';
 import NextNProgress from "nextjs-progressbar";
 import { wrapper } from '../redux/store'
 
