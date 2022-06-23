@@ -16,7 +16,8 @@ import {wrapper} from '../redux/store';
 
 
 const Login = ({authenticate,idusers}) => {
-  const [notifId,setNotifId] = useState('00')
+  const [notifId,setNotifId] = useState('Loading...')
+  const [isLoadingNotification,setIsLoadingNotification] = useState(false)
   const [loginText,setLoginText] = useState('Login')
 
   const formik = useFormik({
@@ -48,25 +49,38 @@ const Login = ({authenticate,idusers}) => {
     },
   });
 
-  useEffect(() => {
+  const getNotificationId = async () => {
     OneSignal = window.OneSignal || [];
-    OneSignal.push(function() {
-      /* These examples are all valid */
-      OneSignal.getUserId(function(userId) {
-        console.log("OneSignal User ID:", userId);
-        setNotifId(userId)
-        // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316
-      });
-    });
+      try {
+        const pushOne = await OneSignal.push(function() {
+          /* These examples are all valid */
+          OneSignal.getUserId(function(userId) {
+            console.log("OneSignal User ID:", userId);
+            setNotifId(userId)
+          });
+        });
+
+        if (pushOne === undefined) throw "Not available (You can't get notification)";
+        console.log(pushOne,'push try');
+    } catch (error) {
+      console.log(error);
+      setNotifId(error);
+    }
+  }
+
+  useEffect(() => {
+    getNotificationId()
 
   }, [])
 
 
   return (
     <div id="login_wrapper" className='login_page'>
-        <div className='login_container text-center'>
+      <div className='notification-id'>
+        <h4 >Notification ID: {notifId}</h4>
+      </div>
+      <div className='login_container text-center'>
         <Image alt="logo" src='/images/bintaro-jaya-logo-color.svg' width={150} height={50}/>
-        <p>{notifId}</p>
 
         <br/>
         <br/>

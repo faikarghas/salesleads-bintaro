@@ -7,6 +7,14 @@
     @include respond(down-tab-port){
         padding: 2rem;
     }
+    .notification-id{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        h4{
+            color:white;
+        }
+    }
     .login_container{
         background-color: white;
         border-radius: 5px;
