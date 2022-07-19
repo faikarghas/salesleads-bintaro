@@ -2,25 +2,12 @@ import React,{useEffect,useState,useRef} from 'react'
 import Select from "react-select";
 import { useRouter } from 'next/router'
 import Modal from '.'
+
 import {Close} from '../close/index'
+
 import {API_URL,API_URL_LOCAL} from '../../../utils/config'
+import {optionsFrequently,optionsPeriodeLaporan} from '../../../utils/data'
 
-
-const optionsFrequently = [
-    { value: "daily", label: "Harian" },
-    { value: "weekly", label: "Mingguan" },
-    { value: "monthly", label: "Bulanan" },
-];
-
-const optionsPeriodeLaporan = [
-    { value: "1", label: "Hari Terakhir" },
-    { value: "2", label: "7 Hari Terakhir" },
-    { value: "3", label: "Bulan Ini (MTD)" },
-    { value: "4", label: "3 Bulan Terakhir" },
-    { value: "5", label: "12 Bulan Terakhir" },
-    { value: "6", label: "Tahun Ini (YTD)" },
-    { value: "7", label: "Seumur Hidup" },
-];
 
 const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idReport,reportName,reportPeriod,reportFrequency}) => {
     const [selectValue, setSelectValue] = useState({
@@ -70,13 +57,23 @@ const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idRe
           })
       }
 
-    useEffect(() => {
-        setTextInput(reportName)
+    const setPeriodAndFreqInputValue = () => {
+        let currentPeriod 
+        if (reportPeriod) {
+            currentPeriod = optionsPeriodeLaporan.filter((i)=>{
+                return i.value == reportPeriod
+            })
+        }
+
         setSelectValue({
             ...selectValue,
-            ['periode']: optionsPeriodeLaporan[parseInt(reportPeriod)-1],
+            ['periode']: currentPeriod? currentPeriod[0] : {},
             ['frekuensi']: optionsFrequently.filter(item=>item.value == reportFrequency)
         });
+    }
+    useEffect(() => {
+        setTextInput(reportName)
+        setPeriodAndFreqInputValue()
     }, [ActiveModal])
 
 

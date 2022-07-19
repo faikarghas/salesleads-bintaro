@@ -1,10 +1,7 @@
 import Image from 'next/image'
 import React,{useEffect,useState} from 'react'
 import Link from 'next/link';
-
-import {getCookie,setCookie} from '../utils/cookie'
-import { getMessaging, onMessage } from "firebase/messaging";
-import {firebaseInit,getFCMToken} from '../firebase'
+import {verifyJwt} from '../utils/verifyJwt'
 
 import {useFormik } from 'formik'
 import * as Yup from 'yup';
@@ -76,6 +73,7 @@ const Login = ({authenticate,idusers}) => {
 
   return (
     <div id="login_wrapper" className='login_page'>
+      <p className="version">V 1.0.2</p>
       <div className='notification-id'>
         <h4 >Notification ID: {notifId}</h4>
       </div>
@@ -119,13 +117,19 @@ const mapDispatchToProps = dispatch => {
 export const getServerSideProps = wrapper.getStaticProps(store => ({req, res, ...etc}) => {
   const isTokenAvailable  = req.cookies.token;
 
-  if (isTokenAvailable) {
+  if (verifyJwt(isTokenAvailable) && verifyJwt(req.cookies.usr_token) ) {
     return {
-      redirect: {
-        permanent: false,
-        destination: "/"
-      }
+        redirect: {
+          permanent: false,
+          destination: "/"
+        }
     }
+  } else {
+    res.setHeader(
+      "Set-Cookie", [
+        `token=deleted; Max-Age=0`,
+        `usr_token=deleted; Max-Age=0`]
+    );
   }
 
 })

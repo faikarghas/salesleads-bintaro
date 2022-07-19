@@ -1,31 +1,14 @@
 import {useEffect,useState} from 'react'
-import {io} from 'socket.io-client'
 import Router from 'next/router'
-import {firebaseInit,getFCMToken} from '../firebase'
-
 import Layout from '../components/layout/index'
 
 import {connect} from 'react-redux';
-import {reauthenticate} from '../redux/auth/action'
+import {reauthenticate,deauthenticate} from '../redux/auth/action'
 import {wrapper} from '../redux/store';
 
 import {verifyJwt} from '../utils/verifyJwt'
-import {getCookie} from '../utils/cookie'
-
 
 function Home({username}) {
-  useEffect(() => {
-    socketInitializer()
-  }, [])
-
-  const socketInitializer = async () => {
-    await fetch('/api/socket')
-    let socket = io()
-
-    socket.on('connect', () => {
-      console.log('connected')
-    })
-  }
 
   const [modal,setModal] = useState({
     isActive: false,
@@ -72,34 +55,53 @@ const mapDispatchToProps = {
 
 };
 
-export const getServerSideProps = wrapper.getStaticProps(store => ({req, res, ...etc}) => {
+export const getServerSideProps = wrapper.getServerSideProps(store => ({req, res, ...etc}) => {
 
   const isTokenAvailable  = req.cookies.token;
-  const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
-  const username          = verifyJwt(req.cookies.usr_token).username;
 
+  if(verifyJwt(isTokenAvailable) && verifyJwt(req.cookies.usr_token) ) {
+    const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
+    const username          = verifyJwt(req.cookies.usr_token).username;
 
-  if (isJwtVerified && typeof window === 'undefined') {
-      const idUsers           = isJwtVerified.id;
-      const role              = isJwtVerified.role ;
+    if (isJwtVerified && typeof window === 'undefined') {
+        const idUsers           = isJwtVerified.id;
+        const role              = isJwtVerified.role ;
 
-      store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
+        store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
 
-    } else if(!isTokenAvailable) {
+      } else if (!isTokenAvailable) {
+        if (typeof window !== 'undefined') {
+          Router.push('/login')
+        } else {
+          return {
+            redirect: {
+              permanent: false,
+              destination: "/login"
+            }
+          }
+        }
+    }
 
-    if (typeof window !== 'undefined') {
-      Router.push('/login')
-    } else {
-      return {
-        redirect: {
-          permanent: false,
-          destination: "/login"
+  } else {
+
+      res.setHeader(
+        "Set-Cookie", [
+          `token=deleted; Max-Age=0`,
+          `usr_token=deleted; Max-Age=0`]
+      );
+
+      if (typeof window !== 'undefined') {
+        Router.push('/login')
+      } else {
+        return {
+          redirect: {
+            permanent: false,
+            destination: "/login"
+          }
         }
       }
-    }
+
   }
-
-
 })
 
 

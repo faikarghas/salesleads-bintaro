@@ -2,7 +2,7 @@ import {useEffect,useState,useRef} from 'react'
 import Link from 'next/link'
 import Select from "react-select";
 import { useRouter } from 'next/router'
-
+import Router from 'next/router'
 import {verifyJwt} from '../../utils/verifyJwt'
 import {list_filter} from '../../utils/data'
 import {API_URL, API_URL_LOCAL} from '../../utils/config'
@@ -171,8 +171,8 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`;
     window.history.pushState({path:newurl},'',newurl);
 
-
     fetchData();
+
   }, [listFilterPipeline,listFilterStatus])
 
 
@@ -349,29 +349,48 @@ const mapDispatchToProps = dispatch => {
 export const getServerSideProps =  wrapper.getServerSideProps(store => async ({req, res, ...etc}) => {
 
   const isTokenAvailable  = req.cookies.token;
-  const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
-  const username          = verifyJwt(req.cookies.usr_token).username;
 
-  if (isJwtVerified && typeof window === 'undefined') {
-      const idUsers           = isJwtVerified.id;
-      const role              = isJwtVerified.role ;
+  if(verifyJwt(isTokenAvailable) && verifyJwt(req.cookies.usr_token) ) {
+    const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
+    const username          = verifyJwt(req.cookies.usr_token).username;
 
-      store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
+    if (isJwtVerified && typeof window === 'undefined') {
+        const idUsers           = isJwtVerified.id;
+        const role              = isJwtVerified.role ;
 
-    } else if(!isTokenAvailable) {
+        store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
 
-      if (typeof window !== 'undefined') {
-        Router.push('/login')
-      } else {
-        return {
-          redirect: {
-            permanent: false,
-            destination: "/login"
+      } else if(!isTokenAvailable) {
+
+        if (typeof window !== 'undefined') {
+          Router.push('/login')
+        } else {
+          return {
+            redirect: {
+              permanent: false,
+              destination: "/login"
+            }
           }
         }
-      }
-  }
+    }
+  } else {
+    res.setHeader(
+      "Set-Cookie", [
+        `token=deleted; Max-Age=0`,
+        `usr_token=deleted; Max-Age=0`]
+    );
 
+    if (typeof window !== 'undefined') {
+      Router.push('/login')
+    } else {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login"
+        }
+      }
+    }
+  }
 
 })
 

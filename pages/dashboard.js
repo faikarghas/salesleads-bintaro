@@ -1,8 +1,8 @@
 import {useEffect,useState,useRef} from 'react';
 import Image from 'next/image';
-import {io} from 'socket.io-client';
 import {Tabs, Tab} from "react-bootstrap";
 import Select from "react-select";
+import Router from 'next/router'
 
 import {verifyJwt} from '../utils/verifyJwt';
 import {API_URL, API_URL_LOCAL} from '../utils/config';
@@ -143,24 +143,47 @@ const mapDispatchToProps = {
 export const getServerSideProps = wrapper.getStaticProps(store => async ({req, res, ...etc}) => {
 
   const isTokenAvailable  = req.cookies.token;
-  const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
-  const username          = verifyJwt(req.cookies.usr_token).username;
 
-  const getData = await  fetch(`${API_URL}/stats/dashboard`,{
-    method:"GET",
-    headers:{
-      'Authorization': 'Bearer ' + isTokenAvailable,
+  if(verifyJwt(isTokenAvailable) && verifyJwt(req.cookies.usr_token) ) {
+
+    const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
+    const username          = verifyJwt(req.cookies.usr_token).username;
+
+    const getData = await  fetch(`${API_URL}/stats/dashboard`,{
+      method:"GET",
+      headers:{
+        'Authorization': 'Bearer ' + isTokenAvailable,
+      }
+    })
+    const data = await getData.json()
+
+    if (isJwtVerified && typeof window === 'undefined') {
+        const idUsers           = isJwtVerified.id;
+        const role              = isJwtVerified.role ;
+
+        store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
+
+      } else if(!isTokenAvailable) {
+
+      if (typeof window !== 'undefined') {
+        Router.push('/login')
+      } else {
+        return {
+          redirect: {
+            permanent: false,
+            destination: "/login"
+          }
+        }
+      }
     }
-  })
-  const data = await getData.json()
 
-  if (isJwtVerified && typeof window === 'undefined') {
-      const idUsers           = isJwtVerified.id;
-      const role              = isJwtVerified.role ;
-
-      store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
-
-    } else if(!isTokenAvailable) {
+    return { props: { data : data.data } }
+  } else {
+    res.setHeader(
+      "Set-Cookie", [
+        `token=deleted; Max-Age=0`,
+        `usr_token=deleted; Max-Age=0`]
+    );
 
     if (typeof window !== 'undefined') {
       Router.push('/login')
@@ -173,9 +196,6 @@ export const getServerSideProps = wrapper.getStaticProps(store => async ({req, r
       }
     }
   }
-
-  return { props: { data : data.data } }
-
 
 })
 

@@ -1,9 +1,11 @@
-import React,{useEffect,useState,useRef} from 'react'
-import Link from 'next/link'
+import React,{useEffect,useState} from 'react'
 import { useRouter } from 'next/router'
+import Router from 'next/router'
 import Select from "react-select";
+
 import {verifyJwt} from '../../utils/verifyJwt'
 import {API_URL,API_URL_LOCAL} from '../../utils/config'
+import {optionsFrequently,optionsPeriodeLaporan} from '../../utils/data'
 
 import {connect} from 'react-redux';
 import {wrapper} from '../../redux/store';
@@ -15,26 +17,10 @@ import Card from '../../components/presentationals/card/card'
 import Modal from '../../components/presentationals/modal/index'
 import {Close} from '../../components/presentationals/close'
 import ReportModal from '../../components/presentationals/modal/reportModal';
-import { useExcelDownloder } from 'react-xls';
+import {ExportToExcel} from '../../components/presentationals/exportToExcel'
 
-const optionsFrequently = [
-  { value: "daily", label: "Harian" },
-  { value: "weekly", label: "Mingguan" },
-  { value: "monthly", label: "Bulanan" },
-];
-
-const optionsPeriodeLaporan = [
-  { value: 1, label: "Hari Terakhir" },
-  { value: 7, label: "7 Hari Terakhir" },
-  { value: 3, label: "Bulan Ini (MTD)" },
-  { value: 120, label: "3 Bulan Terakhir" },
-  { value: 360, label: "12 Bulan Terakhir" },
-  { value: 0, label: "Seumur Hidup" },
-];
-
-function Reports({getFilterList,removeFilterList,badge,token}) {
+function Reports({token}) {
     const [reports,setReport] = useState([]);
-    const [reportsSummary,setReportSummary] = useState([]);
     const [loadingText,setLoadingText] = useState('Submit')
     const [deleteText,setDeleteText] = useState('Hapus')
     const [selectValue, setSelectValue] = useState({
@@ -54,7 +40,6 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
 
     });
 
-    const { ExcelDownloder, Type } = useExcelDownloder();
     const router = useRouter()
 
     const handleInput = (_selectValue,name) => {
@@ -136,23 +121,6 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
       })
     }
 
-    const downloadReport = async () => {
-      let year = new Date().getFullYear();
-
-      const getData = await fetch(`${API_URL}/stats/reports?period=${year}`,{
-        method:"GET",
-        headers:{
-          'Authorization': 'Bearer ' + token,
-        }
-      })
-      const result = await getData.json()
-
-      if (result.status !== 400) {
-        setReportSummary(result);
-      }
-    }
-
-
     const fetchData = async () => {
       const getData = await fetch(`${API_URL}/stats/settings`,{
         method:"GET",
@@ -161,14 +129,12 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
         }
       })
       const result = await getData.json()
-
       if (result.status !== 400) {
         setReport(result.data);
       }
     };
 
     useEffect( async () => {
-      await downloadReport()
       await fetchData()
     }, [selectValue])
 
@@ -189,15 +155,7 @@ function Reports({getFilterList,removeFilterList,badge,token}) {
                 </div>
                 <div className='report-action'>
                   <div className='edit-email' onClick={()=>_showModal(2,report.reportId,report.reportName,report.period,report.frequency)}>Ubah</div>
-                  {/* <div className='send-email' onClick={()=>_sendReport(report.reportId)}>Email Laporan</div> */}
-                  <ExcelDownloder
-                    data={reportsSummary.data}
-                    filename={'book'}
-                    type={Type.Button} // or type={'button'}
-                    className='send-email'
-                  >
-                    Download
-                  </ExcelDownloder>
+                    <ExportToExcel apiData={[{nama:'faikar'}]}  period={report.period} token={token}/>
                   <div className='delete-email' onClick={()=>_deleteReport(report.reportId)}>{deleteText}</div>
                 </div>
               </div>
@@ -283,17 +241,37 @@ const mapDispatchToProps = dispatch => {
 export const getServerSideProps = wrapper.getStaticProps(store => ({req, res, ...etc}) => {
 
   const isTokenAvailable  = req.cookies.token;
-  const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
-  const username          = verifyJwt(req.cookies.usr_token).username;
+
+  if(verifyJwt(isTokenAvailable) && verifyJwt(req.cookies.usr_token) ) {
+    const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
+    const username          = verifyJwt(req.cookies.usr_token).username;
 
 
-  if (isJwtVerified && typeof window === 'undefined') {
-      const idUsers           = isJwtVerified.id;
-      const role              = isJwtVerified.role ;
+    if (isJwtVerified && typeof window === 'undefined') {
+        const idUsers           = isJwtVerified.id;
+        const role              = isJwtVerified.role ;
 
-      store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
+        store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
 
-    } else if(!isTokenAvailable) {
+      } else if(!isTokenAvailable) {
+
+      if (typeof window !== 'undefined') {
+        Router.push('/login')
+      } else {
+        return {
+          redirect: {
+            permanent: false,
+            destination: "/login"
+          }
+        }
+      }
+    }
+  } else {
+    res.setHeader(
+      "Set-Cookie", [
+        `token=deleted; Max-Age=0`,
+        `usr_token=deleted; Max-Age=0`]
+    );
 
     if (typeof window !== 'undefined') {
       Router.push('/login')
@@ -306,7 +284,6 @@ export const getServerSideProps = wrapper.getStaticProps(store => ({req, res, ..
       }
     }
   }
-
 
 })
 

@@ -1,8 +1,5 @@
 import {useEffect,useState,useRef} from 'react'
-import Select from "react-select";
-import {Tabs, Tab} from "react-bootstrap";
-import Image from 'next/image'
-
+import Router from 'next/router'
 import {verifyJwt} from '../../utils/verifyJwt'
 import {API_URL,API_URL_LOCAL} from '../../utils/config'
 
@@ -115,30 +112,44 @@ const mapDispatchToProps = dispatch => {
 export const getServerSideProps = wrapper.getStaticProps(store => ({req, res, ...etc}) => {
 
   const isTokenAvailable  = req.cookies.token;
-  const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
-  const username          = verifyJwt(req.cookies.usr_token).username;
 
+  if(verifyJwt(isTokenAvailable) && verifyJwt(req.cookies.usr_token) ) {
+    const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
+    const username          = verifyJwt(req.cookies.usr_token).username;
 
-  if (isJwtVerified && typeof window === 'undefined') {
-      const idUsers           = isJwtVerified.id;
-      const role              = isJwtVerified.role ;
+    if (isJwtVerified && typeof window === 'undefined') {
+        const idUsers           = isJwtVerified.id;
+        const role              = isJwtVerified.role ;
 
-      store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
+        store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
 
-    } else if(!isTokenAvailable) {
+      } else if(!isTokenAvailable) {
 
-    if (typeof window !== 'undefined') {
-      Router.push('/login')
-    } else {
+      if (typeof window !== 'undefined') {
+        Router.push('/login')
+      } else {
+        return {
+          redirect: {
+            permanent: false,
+            destination: "/login"
+          }
+        }
+      }
+    }
+  } else {
+      res.setHeader(
+      "Set-Cookie", [
+        `token=deleted; Max-Age=0`,
+        `usr_token=deleted; Max-Age=0`]
+      );
+
       return {
         redirect: {
           permanent: false,
           destination: "/login"
         }
       }
-    }
   }
-
 
 })
 

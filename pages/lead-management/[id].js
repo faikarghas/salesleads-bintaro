@@ -2,6 +2,7 @@ import React,{useEffect,useState} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import Router from 'next/router'
 import {Tabs, Tab} from "react-bootstrap";
 
 import {connect} from 'react-redux';
@@ -232,44 +233,64 @@ const mapDispatchToProps = dispatch => {
 export const getServerSideProps = wrapper.getServerSideProps(store => async ({req, res, ...etc}) => {
 
     const isTokenAvailable  = req.cookies.token;
-    const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
-    const username          = verifyJwt(req.cookies.usr_token).username;
-    const leadId            = etc.params.id;
-    let data                = []
+
+    if(verifyJwt(isTokenAvailable) && verifyJwt(req.cookies.usr_token) ) {
+        const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
+        const username          = verifyJwt(req.cookies.usr_token).username;
+        const leadId            = etc.params.id;
+        let data                = []
 
 
-    const getData = await fetch(`${API_URL}/leads/detail/${leadId}`,{
-        method:"GET",
-        headers:{
-            'Authorization': 'Bearer ' + req.cookies.token,
+        const getData = await fetch(`${API_URL}/leads/detail/${leadId}`,{
+            method:"GET",
+            headers:{
+                'Authorization': 'Bearer ' + req.cookies.token,
+            }
+        })
+        data = await getData.json()
+
+
+        if (isJwtVerified && typeof window === 'undefined') {
+            const idUsers           = isJwtVerified.id;
+            const role              = isJwtVerified.role;
+
+            store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
+
+        } else if(!isTokenAvailable) {
+
+        if (typeof window !== 'undefined') {
+            Router.push('/login')
+        } else {
+            return {
+            redirect: {
+                permanent: false,
+                destination: "/login"
+            }
+            }
         }
-    })
-    data = await getData.json()
+        }
 
-    if (isJwtVerified && typeof window === 'undefined') {
-        const idUsers           = isJwtVerified.id;
-        const role              = isJwtVerified.role;
-
-        store.dispatch(reauthenticate(idUsers,isTokenAvailable,role,username));
-
-      } else if(!isTokenAvailable) {
-
-      if (typeof window !== 'undefined') {
-        Router.push('/login')
-      } else {
         return {
-          redirect: {
-            permanent: false,
-            destination: "/login"
-          }
+            props:{
+                data:data
+            }
         }
-      }
-    }
-
-
-    return {
-        props:{
-            data:data
+    } else {
+        res.setHeader(
+            "Set-Cookie", [
+              `token=deleted; Max-Age=0`,
+              `usr_token=deleted; Max-Age=0`]
+        );
+      
+        if (typeof window !== 'undefined') {
+            Router.push('/login')
+        } else {
+            return {
+                redirect: {
+                    permanent: false,
+                    destination: "/login"
+                }
+            }
         }
     }
 })

@@ -6,8 +6,4 @@ export const decodeJwt = (token) => {
         return decoded;
     }
 
-    return {
-        id : 0
-    };
-
 }

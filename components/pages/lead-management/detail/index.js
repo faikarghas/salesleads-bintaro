@@ -44,6 +44,10 @@ const Detail = ({data}) => {
                     <p>{data.data.leadSource}</p>
                 </div>
                 <div className=''>
+                    <label>Type</label>
+                    <p>{data.data.leadType}</p>
+                </div>
+                <div className=''>
                     <label>Price</label>
                     <p>{data.data.leadPrice}</p>
                 </div>
