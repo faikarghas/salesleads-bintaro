@@ -73,7 +73,7 @@ const Login = ({authenticate,idusers}) => {
 
   return (
     <div id="login_wrapper" className='login_page'>
-      <p className="version">V 1.0.2</p>
+      <p className="version">V 1.0.4</p>
       <div className='notification-id'>
         <h4 >Notification ID: {notifId}</h4>
       </div>
