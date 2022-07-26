@@ -40,9 +40,9 @@ const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idRe
               'Content-Type':'application/json'
             },
             body:JSON.stringify({
-              reportName: textInput,
-              period: selectValue.periode.value,
-              frequency: selectValue.frekuensi.value
+                reportName: textInput,
+                period: selectValue.periode.value,
+                frequency: selectValue.frekuensi.value? selectValue.frekuensi.value : selectValue.frekuensi[0].value   
             })
           })
           .then(response => {
@@ -54,7 +54,7 @@ const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idRe
             }, 2000);
             setLoadingText('Report Berhasil ditambah')
             router.reload(window.location.pathname)
-          })
+        })
       }
 
     const setPeriodAndFreqInputValue = () => {

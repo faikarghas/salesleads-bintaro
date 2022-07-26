@@ -24,6 +24,10 @@ const Detail = ({data}) => {
                     <p>{data.data.leadEmail}</p>
                 </div>
                 <div className=''>
+                    <label>Birthday</label>
+                    <p>{data.data.leadBirthday}</p>
+                </div>
+                <div className=''>
                     <label>Mobile</label>
                     <p>{data.data.leadPhone}</p>
                 </div>
