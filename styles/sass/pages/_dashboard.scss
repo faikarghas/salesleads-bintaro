@@ -104,7 +104,6 @@
                     font-size: 1.4rem;
                 }
             }
-            
         }
         .card__pipeline{
             display: flex;
@@ -153,5 +152,8 @@
                 }
             }
         }
+    }
+    .pagination_handler{
+        display: flex;
     }
 }

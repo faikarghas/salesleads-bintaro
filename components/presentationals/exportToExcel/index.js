@@ -42,9 +42,6 @@ export const ExportToExcel = ({ period, token }) => {
         return i.value == period
       })[0].label;
 
-      console.log(filename);
-      console.log(period,'PERIOD');
-
       XLSX.writeFile(wb, `Leads Report Periode ${filename}.xlsx`);
 
     }

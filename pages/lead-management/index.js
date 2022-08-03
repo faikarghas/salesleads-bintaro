@@ -102,7 +102,7 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
 
   const _updateAccepted =  async (leadId) => {
     if (role === 0) {
-      const getData = await  fetch(`${API_URL}/leads/accept/${leadId}`,{
+      const getData = await fetch(`${API_URL}/leads/accept/${leadId}`,{
         method:"PUT",
         headers:{
           'Authorization': 'Bearer ' + token,

@@ -15,10 +15,12 @@ import Layout from '../components/layout/index';
 import { Close } from '../components/presentationals/close';
 import Modal from '../components/presentationals/modal';
 import Gambaran from '../components/pages/dashboard/gambaran';
+import Whatsapp from '../components/pages/dashboard/whatsapp';
 
 
 function Dashboard({data,token,role}) {
-  const [dataku, setDataku] = useState()
+  const [dataStats, setDataStats] = useState()
+  const [dataWA, setDataWA] = useState()
   const selectRef = useRef();
   const [selectValue, setSelectValue] = useState("1");
   const [sales, setSales] = useState()
@@ -39,7 +41,7 @@ function Dashboard({data,token,role}) {
       }
     })
     const result = await getData.json()
-    setDataku(result.data)
+    setDataStats(result.data)
   }
 
   const getSales = async () => {
@@ -60,7 +62,7 @@ function Dashboard({data,token,role}) {
   }
 
   useEffect(() => {
-    setDataku(data)
+    setDataStats(data)
     getSales()
   }, [])
 
@@ -106,11 +108,11 @@ function Dashboard({data,token,role}) {
 
           <Tabs defaultActiveKey="gambaran" id="controlled-tab-example">
               <Tab eventKey="gambaran" title="Gambaran">
-                  <Gambaran stats={dataku}/>
+                  <Gambaran stats={dataStats}/>
               </Tab>
-              {/* <Tab eventKey="status" title="Status Lead">
-                  <Status/>
-              </Tab> */}
+              <Tab eventKey="whatsapp" title="Whatsapp">
+                  <Whatsapp />
+              </Tab>
           </Tabs>
         </div>
 
@@ -149,13 +151,13 @@ export const getServerSideProps = wrapper.getStaticProps(store => async ({req, r
     const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
     const username          = verifyJwt(req.cookies.usr_token).username;
 
-    const getData = await  fetch(`${API_URL}/stats/dashboard`,{
+    const getDataStats = await fetch(`${API_URL}/stats/dashboard`,{
       method:"GET",
       headers:{
         'Authorization': 'Bearer ' + isTokenAvailable,
       }
     })
-    const data = await getData.json()
+    const dataStats = await getDataStats.json()
 
     if (isJwtVerified && typeof window === 'undefined') {
         const idUsers           = isJwtVerified.id;
@@ -177,7 +179,7 @@ export const getServerSideProps = wrapper.getStaticProps(store => async ({req, r
       }
     }
 
-    return { props: { data : data.data } }
+    return { props: { data : dataStats.data } }
   } else {
     res.setHeader(
       "Set-Cookie", [
