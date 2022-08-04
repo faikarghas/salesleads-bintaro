@@ -57,10 +57,11 @@ const Whatsapp = () => {
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        pageCount: Math.ceil(dataWa.length / 10) 
     })
 
     const getDataWa =  async (leadId) => {
-        const getData = await fetch(`https://salesleads.bintarojaya.id/api/whatsapp`,{
+        const getData = await fetch(`http://localhost:3000/api/whatsapp`,{
             method:"GET",
         })
         const data = await getData.json()
@@ -80,7 +81,7 @@ const Whatsapp = () => {
 
     useEffect(() => {
         getDataWa()
-    }, [dataWa])
+    }, [])
 
     return (
         <div className='d-flex dashboard__wrapper'>
