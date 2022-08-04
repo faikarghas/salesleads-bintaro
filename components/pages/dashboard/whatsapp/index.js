@@ -61,7 +61,7 @@ const Whatsapp = () => {
     })
 
     const getDataWa =  async (leadId) => {
-        const getData = await fetch(`http://localhost:3000/api/whatsapp`,{
+        const getData = await fetch(`https://salesleads.bintarojaya.id/api/whatsapp`,{
             method:"GET",
         })
         const data = await getData.json()
