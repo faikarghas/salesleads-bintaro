@@ -47,8 +47,10 @@ const Login = ({authenticate,idusers}) => {
   });
 
   const getNotificationId = async () => {
-    OneSignal = window.OneSignal || [];
-      try {
+    let OneSignal = window.OneSignal;
+    if (!OneSignal) return
+
+    try {
         const pushOne = await OneSignal.push(function() {
           /* These examples are all valid */
           OneSignal.getUserId(function(userId) {

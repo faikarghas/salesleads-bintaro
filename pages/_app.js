@@ -9,8 +9,10 @@ import '../styles/sass/main.scss'
 
 function MyApp({ Component, pageProps }) {
 
-  useEffect(() => {
-    OneSignal = window.OneSignal || [];
+  const oneSignalInit = () => {
+    let OneSignal = window.OneSignal;
+    if(!OneSignal) return
+    console.log('ada');
     OneSignal.init({
       appId: "2f65b3c0-7af9-4430-9197-927cb4c3572e",
       safari_web_id: "web.onesignal.auto.3cd6b41f-0715-4da8-9007-02ca4af2dc44",
@@ -23,10 +25,13 @@ function MyApp({ Component, pageProps }) {
     OneSignal.push(function () {
       OneSignal.SERVICE_WORKER_PARAM = { scope: '/push/onesignal/' };
       OneSignal.SERVICE_WORKER_PATH = 'push/onesignal/OneSignalSDKWorker.js'
-      // OneSignal.init(initConfig);
     });
 
-    
+  }
+
+  useEffect(() => {
+    oneSignalInit()
+
     return () => {
     };
   }, []);
