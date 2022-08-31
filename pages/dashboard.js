@@ -16,7 +16,7 @@ import { Close } from '../components/presentationals/close';
 import Modal from '../components/presentationals/modal';
 import Gambaran from '../components/pages/dashboard/gambaran';
 import Whatsapp from '../components/pages/dashboard/whatsapp';
-
+import Sales from '../components/pages/dashboard/sales';
 
 function Dashboard({data,token,role}) {
   const [dataStats, setDataStats] = useState()
@@ -111,7 +111,10 @@ function Dashboard({data,token,role}) {
                   <Gambaran stats={dataStats}/>
               </Tab>
               <Tab eventKey="whatsapp" title="Whatsapp">
-                  <Whatsapp />
+                  <Whatsapp token={token}/>
+              </Tab>
+              <Tab eventKey="sales" title="Sales">
+                  <Sales token={token}/>
               </Tab>
           </Tabs>
         </div>

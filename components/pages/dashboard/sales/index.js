@@ -15,36 +15,24 @@ import Card from '../../../presentationals/card/card'
 const columnHelper = createColumnHelper()
 
 const columns = [
-columnHelper.accessor('created_at', {
-    header:'Date',
-    cell: info => getCurrentDate(info.getValue()),
-    footer: info => info.column.id,
-}),
-columnHelper.accessor('phone', {
-    header:'Phone',
+columnHelper.accessor('email', {
+    header:'Email',
     cell: info => info.getValue(),
     footer: info => info.column.id,
 }),
-columnHelper.accessor('source', {
-    header:'Source',
+columnHelper.accessor('username', {
+    header:'Username',
     cell: info => info.getValue(),
     footer: info => info.column.id,
 }),
-columnHelper.accessor('promo', {
-    header:'Promo',
-    cell: info => info.getValue(),
+columnHelper.accessor('notifId', {
+    header:'Notification',
+    cell: info => {
+        return info.getValue()?.length !== 36 ? 'OFF' : 'ON';
+    },
     footer: info => info.column.id,
 }),
-columnHelper.accessor('cluster', {
-    header:'Cluster',
-    cell: info => info.getValue(),
-    footer: info => info.column.id,
-}),
-columnHelper.accessor('type', {
-    header:'Type',
-    cell: info => info.getValue(),
-    footer: info => info.column.id,
-}),
+
 ]
 
 const Whatsapp = ({token}) => {
@@ -57,11 +45,11 @@ const Whatsapp = ({token}) => {
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        pageCount: Math.ceil(dataWa.length / 10) 
+        pageCount: Math.ceil(dataWa.length / 10)
     })
 
     const getDataWa =  async (leadId) => {
-        const getData = await fetch(`https://api.bintarojaya.id/leads/whatsapp`,{
+        const getData = await fetch(`https://api.bintarojaya.id/auth/sales`,{
             method:"GET",
             headers:{
                 'Authorization': 'Bearer ' + token,
@@ -69,6 +57,7 @@ const Whatsapp = ({token}) => {
         })
         const data = await getData.json()
         setDataWa(data.data)
+        console.log(data);
     }
 
     const exportWaToExcel = () =>{
