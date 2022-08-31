@@ -115,7 +115,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
     }
 
     const fetchData = async () => {
-        const getData = await fetch(`${API_URL}/leads/contact/${data.data.leadId}?via=`,{
+        const getData = await fetch(`${API_URL}/leads/contact/${data.data.leadid}?via=`,{
           method:"GET",
           headers:{
             'Authorization': 'Bearer ' + token,
