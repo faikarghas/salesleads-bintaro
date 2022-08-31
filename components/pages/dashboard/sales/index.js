@@ -78,7 +78,7 @@ const Whatsapp = ({token}) => {
     return (
         <div className='d-flex dashboard__wrapper'>
             <div className='p-5 w-100'>
-                <h4 className='text-center'  style={{fontSize:'12px'}}>DATA WHATSAPP</h4>
+                <h4 className='text-center'  style={{fontSize:'12px'}}></h4>
                 <Card className="p-4">
                     <table className='table'>
                         <thead>
