@@ -146,7 +146,7 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
   }
 
   const fetchData = async () => {
-    setIsLeadsLoading(true)
+    setIsLeadsLoading(false)
     const getData = await fetch(`${API_URL}/leads/?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`,{
       method:"GET",
       headers:{
@@ -171,7 +171,10 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`;
     window.history.pushState({path:newurl},'',newurl);
 
-    fetchData();
+
+    setInterval(() => {
+      fetchData();
+    }, 3000);
 
   }, [listFilterPipeline,listFilterStatus])
 
@@ -218,7 +221,7 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
       <div className='content__wrapper'>
         <div className='lead__page'>
           <label className='text-center d-block'>Leads Berjalan ({leads.length})</label>
-            { isLeadsLoading ?
+          { isLeadsLoading ?
             <div className="leads_loading active"></div>
             :
             leads.map((lead, i) =>{
@@ -249,7 +252,8 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
                       />
                   </div>
               )
-            })}
+            })
+            }
         </div>
       </div>
 
