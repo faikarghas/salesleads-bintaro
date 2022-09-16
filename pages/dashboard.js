@@ -6,6 +6,7 @@ import Router from 'next/router'
 
 import {verifyJwt} from '../utils/verifyJwt';
 import {API_URL, API_URL_LOCAL} from '../utils/config';
+import {getDate} from '../utils/date';
 
 import {connect} from 'react-redux';
 import {wrapper} from '../redux/store';
@@ -18,16 +19,30 @@ import Gambaran from '../components/pages/dashboard/gambaran';
 import Whatsapp from '../components/pages/dashboard/whatsapp';
 import Sales from '../components/pages/dashboard/sales';
 
+import "react-datepicker/dist/react-datepicker.css";
+
+import  DatePicker  from 'react-datepicker';
+
 function Dashboard({data,token,role}) {
-  const [dataStats, setDataStats] = useState()
-  const [dataWA, setDataWA] = useState()
   const selectRef = useRef();
+
+  const [dataStats, setDataStats] = useState()
   const [selectValue, setSelectValue] = useState("1");
   const [sales, setSales] = useState()
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date('2022-01-01'),
+      endDate: new Date(),
+      key: 'selection'
+    }
+  ]);
 
+  const [startDate, setStartDate] = useState(new Date("2022/01/01"));
+  const [endDate, setEndDate] = useState(new Date());
 
   const setFilterDashboard = async (selectValue) => {
     setSelectValue(selectValue);
+
     let url;
     if (selectValue.value == null) {
       url = `${API_URL}/stats/dashboard`
@@ -42,6 +57,34 @@ function Dashboard({data,token,role}) {
     })
     const result = await getData.json()
     setDataStats(result.data)
+  }
+
+  const setFilterPeriode = async (period) => {
+    setDateRange([period.selection])
+
+    let url;
+    if (selectValue.value == null) {
+      url = `${API_URL}/stats/dashboard`
+    } else {
+      url = `${API_URL}/stats/dashboard?userid=${selectValue.value}`
+    }
+    const getData = await fetch(url,{
+      method:"GET",
+      headers:{
+        'Authorization': 'Bearer ' + token,
+        'StartDate' : getDate(startDate),
+        'EndDate' : getDate(endDate)
+      }
+    })
+    const result = await getData.json()
+    setDataStats(result.data)
+
+    console.log(
+      'getData',result.data,
+      'StartDate' , getDate(startDate),
+      'EndDate' , getDate(endDate)
+    )
+
   }
 
   const getSales = async () => {
@@ -64,7 +107,8 @@ function Dashboard({data,token,role}) {
   useEffect(() => {
     setDataStats(data)
     getSales()
-  }, [])
+
+  }, [startDate,endDate,selectValue])
 
 
   const [modal,setModal] = useState({
@@ -90,19 +134,42 @@ function Dashboard({data,token,role}) {
         </div>
         <div className='content__wrapper p-0'>
           {role == 1 ?
-            <div className='d-inline-flex flex-column sortBySales'>
-            <label>Sort Berdasarkan Sales</label>
-            <Select
-              placeholder="Manager"
-              openMenuOnFocus={true}
-              ref={selectRef}
-              options={sales}
-              value={selectValue}
-              onChange={setFilterDashboard}
-              className='react-select-container'
-              classNamePrefix="react-select"
-            />
-        </div>
+            <>
+              <div className='d-inline-flex flex-column sortBySales'>
+                <label>Sort Berdasarkan Sales</label>
+                <Select
+                  placeholder="Manager"
+                  openMenuOnFocus={true}
+                  ref={selectRef}
+                  options={sales}
+                  value={selectValue}
+                  onChange={setFilterDashboard}
+                  className='react-select-container'
+                  classNamePrefix="react-select"
+                />
+              </div>
+              <div className='d-inline-flex flex-column sortBySales'>
+                <label>Pilih Periode</label>
+                <div className='dateRangeBox'>
+                   <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                    />
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
+                    />
+                    <button className="btn btn-primary" onClick={setFilterPeriode}>Submit</button>
+                </div>
+              </div>
+            </>
         :''
         }
 

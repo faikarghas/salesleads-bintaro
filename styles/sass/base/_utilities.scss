@@ -372,3 +372,14 @@
   left: 10px;
   color: white;
 }
+
+.dateRangeBox{
+  display: flex;
+  input{
+    padding: 0.55rem;
+    font-size: 14px;
+    border-color: rgb(204, 204, 204);
+    border-radius: 4px;
+    margin-right: 1rem;
+  }
+}

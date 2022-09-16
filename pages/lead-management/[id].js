@@ -67,7 +67,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
     }
 
     const _updateContacted = async (leadId,contact,contactValue) => {
-        const getData = await  fetch(`${API_URL}/leads/contact/${leadId}`,{
+        const getData = await fetch(`${API_URL}/leads/contact/${leadId}`,{
             method:"PUT",
             headers:{
                 'Content-type': 'application/json; charset=UTF-8',

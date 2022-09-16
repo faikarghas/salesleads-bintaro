@@ -15,12 +15,12 @@ export function getCurrentDate(_time){
     return moment(_time).isValid() ? moment(_time).format('L LT') : _time
 }
 
-export function getTime(_time){
+export function getDate(_time){
 
     let newDate = new Date(_time)
-    let H = newDate.getHours()
-    let M = newDate.getMinutes()
-    let ampm = H >= 12 ? 'PM' : 'AM';
+    let date = newDate.getDate();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
 
-    return `${H}:${M} ${ampm}`
+    return `${year}-${month}-${date}`
 }
