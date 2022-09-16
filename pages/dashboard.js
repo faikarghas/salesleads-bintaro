@@ -39,6 +39,7 @@ function Dashboard({data,token,role}) {
 
   const [startDate, setStartDate] = useState(new Date("2022/01/01"));
   const [endDate, setEndDate] = useState(new Date());
+  const [periodLoading, setPeriodLoading] = useState(false);
 
   const setFilterDashboard = async (selectValue) => {
     setSelectValue(selectValue);
@@ -60,6 +61,7 @@ function Dashboard({data,token,role}) {
   }
 
   const setFilterPeriode = async (period) => {
+    setPeriodLoading(true)
     setDateRange([period.selection])
 
     let url;
@@ -77,10 +79,12 @@ function Dashboard({data,token,role}) {
       }
     })
     const result = await getData.json()
-    setDataStats(result.data)
+    if (result.status === 200) {
+      setDataStats(result.data)
+      setPeriodLoading(false)
+    }
 
     console.log(
-      'getData',result.data,
       'StartDate' , getDate(startDate),
       'EndDate' , getDate(endDate)
     )
@@ -108,7 +112,7 @@ function Dashboard({data,token,role}) {
     setDataStats(data)
     getSales()
 
-  }, [startDate,endDate,selectValue])
+  }, [selectValue])
 
 
   const [modal,setModal] = useState({
@@ -166,7 +170,11 @@ function Dashboard({data,token,role}) {
                       endDate={endDate}
                       minDate={startDate}
                     />
-                    <button className="btn btn-primary" onClick={setFilterPeriode}>Submit</button>
+                    <button className="btn btn-primary btn-fperiod" onClick={setFilterPeriode}>
+                      {periodLoading ? 
+                        <div className="lds-dual-ring"></div> : 'Submit'
+                      }
+                    </button>
                 </div>
               </div>
             </>
