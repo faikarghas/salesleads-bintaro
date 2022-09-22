@@ -3,7 +3,7 @@ import React,{useEffect,useState} from 'react'
 import Link from 'next/link';
 import {verifyJwt} from '../utils/verifyJwt'
 
-import {useFormik } from 'formik'
+import {useFormik} from 'formik'
 import * as Yup from 'yup';
 
 import {connect} from 'react-redux';

@@ -33,7 +33,12 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
   const [listFilterPipeline, setListFilterPipeline] = useState([]);
   const [listFilterStatus, setListFilterStatus] = useState([]);
   const [leads, setLeads] = useState([]);
+  const [leadsup, setLeadsup] = useState([]);
+  const [offset, setOffset] = useState(10)
   const [isLeadsLoading, setIsLeadsLoading] = useState(false);
+  const [isLeadsLoading2, setIsLeadsLoading2] = useState(false);
+  const [cl, setSwitchCl] = useState(true);
+
 
   const selectRef = useRef();
   const router = useRouter()
@@ -145,8 +150,8 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
 
   }
 
-  const fetchData = async () => {
-    setIsLeadsLoading(false)
+  const fetchData = async (loading,firtsInit) => {
+    setIsLeadsLoading(loading)
     const getData = await fetch(`${API_URL}/leads/?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`,{
       method:"GET",
       headers:{
@@ -161,29 +166,55 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
       })
       setLeads(sortDescending);
       setIsLeadsLoading(false)
+      setSwitchCl(firtsInit)
     }
 
   };
 
+  const loadMore = async () => {
+    // if (window.innerHeight + document.documentElement.scrollTop === document.scrollingElement.scrollHeight) {
+      setIsLeadsLoading2(true)
+      const getData = await fetch(`${API_URL}/leads/?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}&offset=${offset}`,{
+        method:"GET",
+        headers:{
+          'Authorization': 'Bearer ' + token,
+        }
+      })
+      const result = await getData.json()
+
+      if (result.status === 200) {
+        let sortDescending = result.data.sort(function(x, y){
+          return new Date(y.leadCreatedAt) - new Date(x.leadCreatedAt);
+        })
+
+
+        const r = [...leads,...sortDescending]
+
+        setLeads(r);
+        setIsLeadsLoading2(false)
+        setOffset(prevState => (prevState += 10));
+      }
+    // }
+  };
+
+  // useEffect(()  => {
+  //   setInterval(() => {
+  //     fetchData(false);
+  //   }, 3000);
+
+  // },[])
+
   useEffect(()  => {
     // window.addEventListener('scroll', loadMore);
 
-    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`;
+    let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`;
     window.history.pushState({path:newurl},'',newurl);
 
-
-    setInterval(() => {
-      fetchData();
-    }, 3000);
+    fetchData(true);
 
   }, [listFilterPipeline,listFilterStatus])
 
-
-  const loadMore = () => {
-      if (window.innerHeight + document.documentElement.scrollTop === document.scrollingElement.scrollHeight) {
-      }
-  }
-
+  console.log(leadsup,'LEADS');
 
   return (
     <Layout>
@@ -195,7 +226,7 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
             <div className='d-flex flex-column w-100'>
               <label>Sort Berdasarkan</label>
               <Select
-                placeholder="Update Terakhir Turun"
+                placeholder="Update Terakhir Naik"
                 openMenuOnFocus={true}
                 ref={selectRef}
                 options={sort_list}
@@ -253,7 +284,39 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
                   </div>
               )
             })
-            }
+          }
+          {leadsup.map((lead, i) =>{
+              let statusLead = lead.status;
+
+              if(lead.userAcceptedName){
+                if (lead.status !== 'Hot' &&
+                lead.status !== 'Warm' &&
+                lead.status !== 'Cold' &&
+                lead.status !== 'Close'
+                ) {
+                  statusLead = ' ';
+                }
+              } else {
+                statusLead = lead.status;
+              }
+
+              return (
+                  <div onClick={()=>_updateAccepted(lead.leadId)}  key={i}>
+                      <Card1
+                      info={lead.pipeline.toUpperCase()}
+                      status_lead={statusLead}
+                      name={lead.leadName}
+                      project_name='Bintaro Jaya'
+                      assigned_agent={`Sales: ${lead.userNotifiedName ? lead.userNotifiedName : lead.userAcceptedName}`}
+                      last_activity={getCurrentDate(lead.leadCreatedAt)}
+                      next_activity={``}
+                      />
+                  </div>
+              )
+          })}
+          <div className={isLeadsLoading ? 'd-none':'d-block text-center'}>
+            <button onClick={()=>loadMore()} style={{backgroundColor:'#2D344F',boxShadow:'none',border:'none'}} className="ps-4 pe-4 fs-5 btn btn-primary justify-content-center align-items-center">{isLeadsLoading2?'Loading...' : 'Load More'}</button>
+          </div>
         </div>
       </div>
 
