@@ -28,7 +28,7 @@ const sort_list = [
 ];
 
 
-function Leads({getFilterList,removeFilterList,badge,token,role}) {
+function Leads({getFilterList,removeFilterList,badge,token,role,data}) {
   const [selectValue, setSelectValue] = useState("1");
   const [listFilterPipeline, setListFilterPipeline] = useState([]);
   const [listFilterStatus, setListFilterStatus] = useState([]);
@@ -197,24 +197,17 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
     // }
   };
 
-  // useEffect(()  => {
-  //   setInterval(() => {
-  //     fetchData(false);
-  //   }, 3000);
-
-  // },[])
-
   useEffect(()  => {
     // window.addEventListener('scroll', loadMore);
 
     let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`;
     window.history.pushState({path:newurl},'',newurl);
 
-    fetchData(true);
-
+    // fetchData(true);
+    setLeads(data.data)
   }, [listFilterPipeline,listFilterStatus])
 
-  console.log(leadsup,'LEADS');
+  console.log(leads,'LEADS');
 
   return (
     <Layout>
@@ -273,7 +266,7 @@ function Leads({getFilterList,removeFilterList,badge,token,role}) {
               return (
                   <div onClick={()=>_updateAccepted(lead.leadId)}  key={i}>
                       <Card1
-                      info={lead.pipeline.toUpperCase()}
+                      info={lead.pipeline?.toUpperCase()}
                       status_lead={statusLead}
                       name={lead.leadName}
                       project_name='Bintaro Jaya'
@@ -421,6 +414,14 @@ export const getServerSideProps =  wrapper.getServerSideProps(store => async ({r
     const isJwtVerified     = isTokenAvailable ? verifyJwt(isTokenAvailable)  : null;
     const username          = verifyJwt(req.cookies.usr_token).username;
 
+    const getData = await fetch(`${API_URL}/leads/?status=&pipeline=`,{
+      method:"GET",
+      headers:{
+        'Authorization': 'Bearer ' + req.cookies.token,
+      }
+    })
+    const leads = await getData.json()
+
     if (isJwtVerified && typeof window === 'undefined') {
         const idUsers           = isJwtVerified.id;
         const role              = isJwtVerified.role ;
@@ -440,6 +441,12 @@ export const getServerSideProps =  wrapper.getServerSideProps(store => async ({r
           }
         }
     }
+
+    return {
+      props:{
+          data:leads
+      }
+  }
   } else {
     res.setHeader(
       "Set-Cookie", [
