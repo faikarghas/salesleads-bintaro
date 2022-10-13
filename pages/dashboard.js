@@ -154,7 +154,7 @@ function Dashboard({data,token,role}) {
               </div>
               <div className='d-inline-flex flex-column sortBySales'>
                 <label>Pilih Periode</label>
-                <div className='dateRangeBox'>
+                <div className='dateRangeBox d-flex flex-warp'>
                    <DatePicker
                       selected={startDate}
                       onChange={(date) => setStartDate(date)}

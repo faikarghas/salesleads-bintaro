@@ -49,6 +49,7 @@ const DetailLead = ({getFilterList,removeFilterList,data,token,idusers}) => {
     }
 
     const _setPipelineHandler = async (leadId,pipeline,_prevPipeline) => {
+        console.log(_prevPipeline);
         const getData = await fetch(`${API_URL}/leads/pipeline/${leadId}`,{
             method:"PUT",
             headers:{

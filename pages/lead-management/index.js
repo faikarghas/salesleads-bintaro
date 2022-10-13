@@ -151,6 +151,7 @@ function Leads({getFilterList,removeFilterList,badge,token,role,data}) {
   }
 
   const fetchData = async (loading,firtsInit) => {
+    console.log(listFilterStatus);
     setIsLeadsLoading(loading)
     const getData = await fetch(`${API_URL}/leads/?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`,{
       method:"GET",
@@ -203,11 +204,9 @@ function Leads({getFilterList,removeFilterList,badge,token,role,data}) {
     let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?status=${listFilterStatus.join(',')}&pipeline=${listFilterPipeline.join(',')}`;
     window.history.pushState({path:newurl},'',newurl);
 
-    // fetchData(true);
-    setLeads(data.data)
+    fetchData(true);
+    // setLeads(data.data)
   }, [listFilterPipeline,listFilterStatus])
-
-  console.log(leads,'LEADS');
 
   return (
     <Layout>
@@ -444,7 +443,7 @@ export const getServerSideProps =  wrapper.getServerSideProps(store => async ({r
 
     return {
       props:{
-          data:leads
+          data:[]
       }
   }
   } else {

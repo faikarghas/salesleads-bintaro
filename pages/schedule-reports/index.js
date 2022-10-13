@@ -134,8 +134,8 @@ function Reports({token}) {
       }
     };
 
-    useEffect( async () => {
-      await fetchData()
+    useEffect(() => {
+       fetchData()
     }, [selectValue])
 
   return (

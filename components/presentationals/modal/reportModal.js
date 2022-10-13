@@ -61,13 +61,13 @@ const ReportModal = ({token,ActiveModal,CurrentModal,modalTarget,CloseModal,idRe
         let currentPeriod 
         if (reportPeriod) {
             currentPeriod = optionsPeriodeLaporan.filter((i)=>{
-                return i.value == reportPeriod
+                return i.value === reportPeriod
             })
         }
 
         setSelectValue({
             ...selectValue,
-            ['periode']: currentPeriod? currentPeriod[0] : {},
+            ['periode']: currentPeriod && reportPeriod !== 0 ? currentPeriod[0] : optionsPeriodeLaporan[5],
             ['frekuensi']: optionsFrequently.filter(item=>item.value == reportFrequency)
         });
     }

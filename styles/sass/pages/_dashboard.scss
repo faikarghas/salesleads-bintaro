@@ -157,3 +157,13 @@
         display: flex;
     }
 }
+
+.react-datepicker-wrapper{
+    flex-basis: 50%;
+    @include respond (down-tab-port){
+        flex-basis: 100%;    
+        input{
+          width: 100%;
+        }
+    }
+}
