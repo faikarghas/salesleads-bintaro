@@ -181,31 +181,31 @@ const Gambaran = ({stats}) => {
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek Hilang</span>
-                            <span className='status_leads'>{total.totalLost} Leads ({(total.totalLost/total.totalLead * 100).toFixed(2)})% </span>
+                            <span className='status_leads'>{total.totalLost} Leads ({(total.totalLost/stats?.new.total * 100).toFixed(2)})% </span>
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek Pending Response</span>
-                            <span className='status_leads'>{stats?.pending.active} Leads ({(stats?.pending.active/total.totalLead * 100).toFixed(2)})% </span>
+                            <span className='status_leads'>{stats?.pending.active} Leads ({(stats?.pending.active/stats?.new.total * 100).toFixed(2)})% </span>
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek Contacted</span>
-                            <span className='status_leads'>{stats?.contacted.active} Leads ({(stats?.contacted.active/total.totalLead * 100).toFixed(2)})% </span>
+                            <span className='status_leads'>{stats?.contacted.active} Leads ({(stats?.contacted.active/stats?.new.total * 100).toFixed(2)})% </span>
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek Gallery Visit</span>
-                            <span className='status_leads'>{stats?.galleryVisit.active} Leads ({(stats?.galleryVisit.active/total.totalLead * 100).toFixed(2)})% </span>
+                            <span className='status_leads'>{stats?.galleryVisit.active} Leads ({(stats?.galleryVisit.active/stats?.new.total * 100).toFixed(2)})% </span>
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek Negotiation</span>
-                            <span className='status_leads'>{stats?.negotiation.active} Leads ({(stats?.negotiation.active/total.totalLead * 100).toFixed(2)})% </span>
+                            <span className='status_leads'>{stats?.negotiation.active} Leads ({(stats?.negotiation.active/stats?.new.total * 100).toFixed(2)})% </span>
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek Booked</span>
-                            <span className='status_leads'>{stats?.booked.active} Leads ({(stats?.booked.active/total.totalLead * 100).toFixed(2)})% </span>
+                            <span className='status_leads'>{stats?.booked.active} Leads ({(stats?.booked.active/stats?.new.total * 100).toFixed(2)})% </span>
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek SPA Sign</span>
-                            <span className='status_leads'>{stats?.spaSign.active} Leads ({(stats?.spaSign.active/total.totalLead * 100).toFixed(2)})% </span>
+                            <span className='status_leads'>{stats?.spaSign.active} Leads ({(stats?.spaSign.active/stats?.new.total * 100).toFixed(2)})% </span>
                         </div>
                     </div>
                 </Card>
