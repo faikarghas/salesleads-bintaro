@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link';
 
 import {getCookie,setCookie} from '../utils/cookie'
-import { getMessaging, onMessage } from "firebase/messaging";
+// import { getMessaging, onMessage } from "firebase/messaging";
 import {firebaseInit,getFCMToken} from '../firebase'
 
 import {useFormik } from 'formik'
