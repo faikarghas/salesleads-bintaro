@@ -193,7 +193,7 @@ const Gambaran = ({stats}) => {
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek Gallery Visit</span>
-                            <span className='status_leads'>{stats?.galleryVisit.active} Leads ({(stats.galleryVisit.active/total.totalLead * 100).toFixed(2)})% </span>
+                            <span className='status_leads'>{stats?.galleryVisit.active} Leads ({(stats?.galleryVisit.active/total.totalLead * 100).toFixed(2)})% </span>
                         </div>
                         <div className='d-flex justify-content-between status__wrapper-item'>
                             <span className='status_text'>Total Prospek Negotiation</span>
